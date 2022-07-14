@@ -44,8 +44,8 @@ def train_model(
 
     # assume that checkpoint consists of a counter of the latest epoch and model
     start_epoch, model = (
-        joblib.load(BytesIO(prev_checkpoint)) if prev_checkpoint else 0,
-        SGDClassifier(**asdict(hyperparameters)),
+        joblib.load(BytesIO(prev_checkpoint)) if prev_checkpoint else
+        (0, SGDClassifier(**asdict(hyperparameters))),
     )
 
     for epoch in range(start_epoch, n_epochs):
