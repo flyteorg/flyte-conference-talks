@@ -12,7 +12,7 @@ from workflows.example_00_intro import FEATURES, TARGET
 
 
 @task
-def get_data() -> dict:
+def get_data() -> pd.DataFrame:
     """
     ✨ Flyte's rich type system allows for static analysis of the execution graph at
     registration time, raising a compile-time error if the type annotations between
@@ -29,9 +29,7 @@ def split_data(
     test_size: float,
     random_state: int,
 ) -> Tuple[pd.DataFrame, pd.DataFrame]:
-    return train_test_split(
-        data, test_size=test_size, random_state=random_state
-    )
+    return train_test_split(data, test_size=test_size, random_state=random_state)
 
 
 @workflow
@@ -39,9 +37,7 @@ def get_splits(
     test_size: float,
     random_state: int,
 ) -> Tuple[pd.DataFrame, pd.DataFrame]:
-    return split_data(
-        data=get_data(), test_size=test_size, random_state=random_state
-    )
+    return split_data(data=get_data(), test_size=test_size, random_state=random_state)
 
 
 if __name__ == "__main__":
