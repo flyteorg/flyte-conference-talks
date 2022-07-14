@@ -1,6 +1,7 @@
 """Reproducibility: given that random seeds are parameterized in the task."""
 
 from dataclasses import dataclass, asdict
+from typing import List
 
 import pandas as pd
 
@@ -34,9 +35,16 @@ def train_model(data: pd.DataFrame, hyperparameters: Hyperparameters) -> SGDClas
     return SGDClassifier(**asdict(hyperparameters)).fit(data[FEATURES], data[TARGET])
 
 
+@task
+def model_weights(model: SGDClassifier) -> List[List[float]]:
+    return [[float(x) for x in coef] for coef in model.coef_.tolist()]
+
+
 @workflow
 def training_workflow(hyperparameters: Hyperparameters) -> SGDClassifier:
-    return train_model(data=get_data(), hyperparameters=hyperparameters)
+    model = train_model(data=get_data(), hyperparameters=hyperparameters)
+    model_weights(model=model)
+    return model
 
 
 if __name__ == "__main__":

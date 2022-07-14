@@ -4,13 +4,12 @@ from dataclasses import dataclass
 from typing import Annotated, Union
 
 import pandas as pd
-import pyspark.pandas
+import pyspark.sql
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from dataclasses_json import dataclass_json
 
-from flytekit.types.file import FlyteFile
 from flytekit.types.structured import StructuredDataset
 from flytekit import kwtypes, task, workflow
 from flytekit.extras.sqlite3.task import SQLite3Config, SQLite3Task
@@ -62,18 +61,17 @@ get_data = SQLite3Task(
 )
 
 
-def scale(data: Union[pd.DataFrame, pyspark.pandas.DataFrame]):
+def scale(data: pd.DataFrame):
     """🤝 Helper functions can be invoked in any task."""
     return (data - data.mean()) / data.std()
 
 
 @task
-def preprocess_data(data: pd.DataFrame) -> FlyteFile:
+def preprocess_data(data: PenquinsDataset) -> PenquinsDataset:
+    data = data.open(pd.DataFrame).all()
     penguins = data[[TARGET] + FEATURES].dropna().sample(frac=1.0, random_state=42)
     penguins[FEATURES] = scale(penguins[FEATURES])
-    local_file = "/tmp/penguins.parquet"
-    penguins.to_parquet(local_file)
-    return FlyteFile(path=local_file)
+    return PenquinsDataset(penguins)
 
 
 @task(
@@ -86,22 +84,18 @@ def preprocess_data(data: pd.DataFrame) -> FlyteFile:
         }
     ),
 )
-def preprocess_data_pyspark(data: pyspark.pandas.DataFrame) -> FlyteFile:
+def preprocess_data_pyspark(data: pyspark.sql.DataFrame) -> pyspark.sql.DataFrame:
     """
     🔌 Another kind of plugin is the task config plugin. By specifying the `task_config`
     argument with the `Spark` task config, the Flyte cluster will provision an ephemeral
     Spark cluster for you to perform distributed compute.
     """
-    penguins = data[[TARGET] + FEATURES].dropna().sample(frac=1.0, random_state=42)
-    penguins[FEATURES] = scale(penguins[FEATURES])
-    local_file = "/tmp/penguins.parquet"
-    penguins.to_parquet(local_file)
-    return FlyteFile(path=local_file)
+    ...  # pyspark code
 
 
 @task
 def train_model(
-    data: FlyteFile, n_epochs: int, hyperparameters: Hyperparameters
+    data: PenquinsDataset, n_epochs: int, hyperparameters: Hyperparameters
 ) -> nn.Sequential:
     """
     🔌 The third kind of plugin is the type transformer plugin, which enables you to
@@ -110,7 +104,7 @@ def train_model(
     Python can be understood by Flyte.
     """
     # extract features and targets
-    data = pd.read_parquet(data.path)
+    data = data.open(pd.DataFrame).all()
     features = torch.from_numpy(data[FEATURES].values).float()
     targets = torch.from_numpy(pd.get_dummies(data[TARGET]).values).float()
 
