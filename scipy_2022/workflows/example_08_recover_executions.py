@@ -9,6 +9,7 @@ import pandas as pd
 from sklearn.linear_model import SGDClassifier
 
 from flytekit import task, workflow, dynamic
+from flytekit.exceptions.user import FlyteRecoverableException
 
 from workflows.example_00_intro import split_data
 from workflows.example_01_dynamic import get_best_model
@@ -36,7 +37,7 @@ def train_model(
     # simulate system-level error: per trail, introduce
     # a chance of failure 50% of the time
     if random() < 0.5:
-        raise RuntimeError(
+        raise FlyteRecoverableException(
             f"🔥 Something went wrong with hyperparameters {hyperparameters}! 🔥"
         )
 
