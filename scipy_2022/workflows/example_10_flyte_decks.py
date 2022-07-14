@@ -1,4 +1,4 @@
-"""Flyte Decks for Pipeline visibility."""
+"""Auditability: Flyte Decks for Pipeline visibility."""
 
 from typing import Annotated
 
@@ -16,6 +16,10 @@ resources = Resources(mem="1Gi")
 
 @task(requests=resources, limits=resources)
 def get_data() -> pd.DataFrame:
+    """
+    🃏 Flyte Decks allow you to render html in the Flyte console so you can
+    visualize and document metadata associated with a task.
+    """
     penguins = load_penguins()[[TARGET] + FEATURES]
     Deck("data_profile", FrameProfilingRenderer("penguins").to_html(penguins))
     return penguins
@@ -23,6 +27,9 @@ def get_data() -> pd.DataFrame:
 
 @task(requests=resources, limits=resources)
 def get_data_annotated() -> Annotated[pd.DataFrame, FrameProfilingRenderer("penguins")]:
+    """
+    🃏 Flyte Decks can also be rendered at the output interface of your tasks.
+    """
     return load_penguins()[[TARGET] + FEATURES]
 
 

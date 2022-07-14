@@ -1,4 +1,4 @@
-"""Grid search dynamic task example."""
+"""Flyte Intro: Grid search Dynamic Tasks."""
 
 from typing import List, Tuple, NamedTuple
 
@@ -9,6 +9,7 @@ from sklearn.metrics import accuracy_score
 
 from flytekit import task, workflow, dynamic
 
+# Tasks and workflows are reusable across modules
 from workflows.example_00_intro import (
     get_data,
     split_data,
@@ -19,6 +20,7 @@ from workflows.example_00_intro import (
 )
 
 
+# ✨ Use named tuples to assign semantic value to data types
 TuningResults = NamedTuple(
     "TuningResults",
     best_model=LogisticRegression,
@@ -28,13 +30,6 @@ TuningResults = NamedTuple(
 )
 
 
-@task
-def get_best_model(models: List[LogisticRegression], val_data: pd.DataFrame) -> Tuple[LogisticRegression, float]:
-    scores = [accuracy_score(val_data[TARGET], model.predict(val_data[FEATURES])) for model in models]
-    best_index = np.array(scores).argmax()
-    return models[best_index], float(scores[best_index])
-
-
 @dynamic
 def tune_model(
     hyperparam_grid: List[dict],
@@ -42,9 +37,34 @@ def tune_model(
     val_size: float,
     random_state: int,
 ) -> Tuple[LogisticRegression, float]:
-    train_data, val_data = split_data(data=tune_data, test_size=val_size, random_state=random_state)
-    models = [train_model(data=train_data, hyperparameters=hp) for hp in hyperparam_grid]
+    """
+    🌊 Dynamic workflows compile the execution graph at runtime,
+    enabling flexible execution graphs, whose structure you don't
+    know ahead of time.
+    """
+    train_data, val_data = split_data(
+        data=tune_data, test_size=val_size, random_state=random_state
+    )
+    models = [
+        train_model(data=train_data, hyperparameters=hp) for hp in hyperparam_grid
+    ]
     return get_best_model(models=models, val_data=val_data)
+
+
+@task
+def get_best_model(
+    models: List[LogisticRegression], val_data: pd.DataFrame
+) -> Tuple[LogisticRegression, float]:
+    """
+    🔻 We implement a "reduce" function that takes the results from the dynamic
+    model tuning workflow to find the best model.
+    """
+    scores = [
+        accuracy_score(val_data[TARGET], model.predict(val_data[FEATURES]))
+        for model in models
+    ]
+    best_index = np.array(scores).argmax()
+    return models[best_index], float(scores[best_index])
 
 
 @workflow
@@ -57,8 +77,10 @@ def tuning_workflow(
 
     # get and split data
     data = get_data()
-    tune_data, test_data = split_data(data=data, test_size=test_size, random_state=random_state)
-    
+    tune_data, test_data = split_data(
+        data=data, test_size=test_size, random_state=random_state
+    )
+
     # tune model over hyperparameter grid
     best_model, best_val_acc = tune_model(
         hyperparam_grid=hyperparam_grid,

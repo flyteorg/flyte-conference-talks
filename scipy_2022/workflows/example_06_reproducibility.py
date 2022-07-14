@@ -1,4 +1,4 @@
-"""Reproducibility, given that random seeds are parameterized in the task."""
+"""Reproducibility: given that random seeds are parameterized in the task."""
 
 from dataclasses import dataclass, asdict
 
@@ -10,11 +10,7 @@ from sklearn.linear_model import SGDClassifier
 
 from flytekit import task, workflow, Resources
 
-from workflows.example_00_intro import (
-    get_data,
-    FEATURES,
-    TARGET,
-)
+from workflows.example_00_intro import get_data, FEATURES, TARGET
 
 
 @dataclass_json
@@ -22,26 +18,25 @@ from workflows.example_00_intro import (
 class Hyperparameters:
     penalty: str = "l2"
     alpha: float = 0.001
+    # 🔄 Code-level reproducibility: set random seed within your tasks
     random_state: int = 42
 
 
+# 🔄 Compute-level reproducibility: encode compute and memory requirements
 @task(requests=Resources(cpu="2", mem="750Mi"), limits=Resources(cpu="4", mem="1Gi"))
 def get_data() -> pd.DataFrame:
-    penguins = load_penguins()
-    return penguins[[TARGET] + FEATURES].dropna()
+    return load_penguins()[[TARGET] + FEATURES].dropna()
 
 
+# 💻 Compute/memory requirements can be configured at task-level granularity
 @task(requests=Resources(cpu="1", mem="500Mi"), limits=Resources(cpu="2", mem="500Mi"))
 def train_model(data: pd.DataFrame, hyperparameters: Hyperparameters) -> SGDClassifier:
-    model = SGDClassifier(**asdict(hyperparameters))
-    return model.fit(data[FEATURES], data[TARGET])
+    return SGDClassifier(**asdict(hyperparameters)).fit(data[FEATURES], data[TARGET])
 
 
 @workflow
 def training_workflow(hyperparameters: Hyperparameters) -> SGDClassifier:
-    data = get_data()    
-    model = train_model(data=data, hyperparameters=hyperparameters)
-    return model
+    return train_model(data=get_data(), hyperparameters=hyperparameters)
 
 
 if __name__ == "__main__":

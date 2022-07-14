@@ -1,4 +1,4 @@
-"""Introduction to Flyte.
+"""Flyte Intro: Tasks and Workflows.
 
 These examples will use the penguins dataset: https://allisonhorst.github.io/palmerpenguins/
 Using the pypi package: https://pypi.org/project/palmerpenguins/
@@ -21,23 +21,23 @@ FEATURES = ["bill_length_mm", "bill_depth_mm", "flipper_length_mm", "body_mass_g
 
 @task
 def get_data() -> pd.DataFrame:
-    penguins = load_penguins()
-    return penguins[[TARGET] + FEATURES].dropna()
+    """
+    🧱 A task is the fundamental building block and basic unit of compute.
+    You can think of these as strongly typed dockerized python functions.
+    """
+    return load_penguins()[[TARGET] + FEATURES].dropna()
 
 
 @task
 def split_data(
-    data: pd.DataFrame,
-    test_size: float,
-    random_state: int,
+    data: pd.DataFrame, test_size: float, random_state: int
 ) -> Tuple[pd.DataFrame, pd.DataFrame]:
     return train_test_split(data, test_size=test_size, random_state=random_state)
 
 
 @task
 def train_model(data: pd.DataFrame, hyperparameters: dict) -> LogisticRegression:
-    model = LogisticRegression(**hyperparameters)
-    return model.fit(data[FEATURES], data[TARGET])
+    return LogisticRegression(**hyperparameters).fit(data[FEATURES], data[TARGET])
 
 
 @task
@@ -51,11 +51,17 @@ def training_workflow(
     test_size: float = 0.2,
     random_state: int = 42,
 ) -> Tuple[LogisticRegression, float, float]:
+    """
+    🔀 Workflows are the core abstraction for composing tasks together into
+    meaningful applications. These are statically compiled execution graphs.
+    """
 
     # get and split data
     data = get_data()
-    train_data, test_data = split_data(data=data, test_size=test_size, random_state=random_state)
-    
+    train_data, test_data = split_data(
+        data=data, test_size=test_size, random_state=random_state
+    )
+
     # train model on the training set
     model = train_model(data=train_data, hyperparameters=hyperparameters)
 
@@ -68,4 +74,5 @@ def training_workflow(
 
 
 if __name__ == "__main__":
+    # You can run workflows locally, it's just Python 🐍!
     print(f"{training_workflow(hyperparameters={'C': 0.1, 'max_iter': 5000})}")

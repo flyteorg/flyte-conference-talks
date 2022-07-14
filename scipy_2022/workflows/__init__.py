@@ -12,7 +12,10 @@ class FlyteRemoteFilter(logging.Filter):
 # by default.
 class PickleFilter(logging.Filter):
     def filter(self, record):
-        return not re.match(".+Flyte will default to use PickleFile as the transport.+", record.getMessage())
+        return not re.match(
+            ".+Flyte will default to use PickleFile as the transport.+",
+            record.getMessage(),
+        )
 
 
 flytekit_logger = logging.getLogger("flytekit")

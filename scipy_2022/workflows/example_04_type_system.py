@@ -1,4 +1,4 @@
-"""Static Analysis Example"""
+"""Reliability: Static Analysis Example"""
 
 from typing import Tuple
 
@@ -8,14 +8,18 @@ from sklearn.model_selection import train_test_split
 
 from flytekit import task, workflow
 
-from workflows.example_00_intro import (
-    FEATURES,
-    TARGET,
-)
+from workflows.example_00_intro import FEATURES, TARGET
+
 
 
 @task
-def get_data() -> pd.DataFrame:  # change to `dict`` to get compile-time error
+def get_data() -> pd.DataFrame:
+    """
+    ✨ Flyte's rich type system allows for static analysis of the execution graph at
+    registration time, raising a compile-time error if the type annotations between
+    functions aren't compatible. Try changing the output signature of this function
+    to a `dict` and see what you get when you register this task.
+    """
     penguins = load_penguins()
     return penguins[[TARGET] + FEATURES].dropna()
 
@@ -30,7 +34,7 @@ def split_data(
 
 
 @workflow
-def get_splits_runtime_error(
+def get_splits(
     test_size: float,
     random_state: int,
 ) -> Tuple[pd.DataFrame, pd.DataFrame]:
@@ -38,7 +42,7 @@ def get_splits_runtime_error(
 
 
 if __name__ == "__main__":
-    get_splits_runtime_error(test_size=0.2, random_state=123)
+    get_splits(test_size=0.2, random_state=123)
 
 # TypeError: Failed to convert return value for var o0 for function get_data with
 # error <class 'flytekit.core.type_engine.TypeTransformerFailedError'>: Type of Val
@@ -54,5 +58,5 @@ if __name__ == "__main__":
 # 341  Chinstrap            49.6           18.2              193.0       3775.0
 # 342  Chinstrap            50.8           19.0              210.0       4100.0
 # 343  Chinstrap            50.2           18.7              198.0       3775.0
-# 
+#
 # [342 rows x 5 columns]' is not an instance of <class 'dict'>

@@ -1,7 +1,4 @@
-"""Extending Flyte Decks."""
-
-# - example of sklearn html rendered pipeline in train_model task
-# - example of confusion matrix plot with markdown report
+"""Auditability: Extending Flyte Decks."""
 
 import base64
 from dataclasses import asdict
@@ -21,6 +18,7 @@ from workflows.example_06_reproducibility import Hyperparameters
 
 
 class SklearnEstimatorRenderer:
+    """🃏 Easily extend Flyte Decks to visualize our model pipeline"""
     def to_html(self, pipeline: Pipeline) -> str:
         return estimator_html_repr(pipeline)
 
@@ -38,6 +36,7 @@ def train_model(data: pd.DataFrame, hyperparameters: Hyperparameters) -> Pipelin
 
 
 class ConfusionMatrixRenderer:
+    """🃏 They can even be used to render plots 📊"""
     def to_html(self, cm_display: ConfusionMatrixDisplay) -> str:
         buf = BytesIO()
         cm_display.plot().figure_.savefig(buf, format="png")
@@ -49,7 +48,7 @@ class ConfusionMatrixRenderer:
 def evaluate(model: Pipeline, data: pd.DataFrame, split: str):
     cm_display = ConfusionMatrixDisplay(
         confusion_matrix=confusion_matrix(data[TARGET], model.predict(data[FEATURES])),
-        display_labels=model.named_steps["classifier"].classes_
+        display_labels=model.named_steps["classifier"].classes_,
     )
     Deck(f"evaluation {split}", ConfusionMatrixRenderer().to_html(cm_display))
 
@@ -61,7 +60,9 @@ def training_workflow(
     random_state: int = 42,
 ) -> Pipeline:
     data = get_data()
-    train_data, test_data = split_data(data=data, test_size=test_size, random_state=random_state)
+    train_data, test_data = split_data(
+        data=data, test_size=test_size, random_state=random_state
+    )
     model = train_model(data=train_data, hyperparameters=hyperparameters)
     evaluate(model=model, data=train_data, split="train")
     evaluate(model=model, data=test_data, split="test")
