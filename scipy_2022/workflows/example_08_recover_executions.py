@@ -46,6 +46,10 @@ def tune_model(
     val_size: float,
     random_state: int,
 ) -> SGDClassifier:
+
+    # set the random seed
+    np.random.seed(random_state)
+
     hyperparam_grid = [
         Hyperparameters(alpha=alpha)
         for alpha in np.geomspace(1e-6, 1e3, n_alpha_samples)
