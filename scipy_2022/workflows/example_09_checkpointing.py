@@ -36,8 +36,8 @@ def train_model(
     """
 
     # try to get previous checkpoint, if it exists
-    checkpoint = current_context().checkpoint
     try:
+        checkpoint = current_context().checkpoint
         prev_checkpoint = checkpoint.read()
     except (NotImplementedError, ValueError):
         checkpoint, prev_checkpoint = None, False

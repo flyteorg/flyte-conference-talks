@@ -1,13 +1,14 @@
 """Recoverability: Caching for compute efficiency."""
 
 from dataclasses import asdict
-from typing import List
+from typing import Annotated, List, Tuple
 
 import pandas as pd
-
+from palmerpenguins import load_penguins
 from sklearn.linear_model import SGDClassifier
+from sklearn.model_selection import train_test_split
 
-from flytekit import task, workflow, dynamic
+from flytekit import task, workflow, dynamic, HashMethod
 
 
 from workflows.example_00_intro import split_data
@@ -18,6 +19,27 @@ from workflows.example_06_reproducibility import (
     FEATURES,
     TARGET,
 )
+
+
+def hash_pandas_dataframe(df: pd.DataFrame) -> str:
+    return str(pd.util.hash_pandas_object(df))
+
+
+CachedDataFrame = Annotated[pd.DataFrame, HashMethod(hash_pandas_dataframe)]
+
+
+@task
+def get_data() -> CachedDataFrame:
+    return load_penguins()[[TARGET] + FEATURES].dropna()
+
+
+@task(cache=True, cache_version="1")
+def split_data(
+    data: pd.DataFrame, test_size: float, random_state: int
+) -> Tuple[CachedDataFrame, CachedDataFrame]:
+    return train_test_split(
+        data, test_size=test_size, random_state=random_state
+    )
 
 
 @task(cache=True, cache_version="1")
