@@ -27,6 +27,7 @@ class PenguinsSchema(pa.SchemaModel):
     This allows for statistical data validation of dataframes as they flow
     through your Flyte workflows.
     """
+
     species: Series[str] = pa.Field(isin=CLASSES)
     bill_length_mm: Series[float]
     bill_depth_mm: Series[float]
@@ -35,7 +36,9 @@ class PenguinsSchema(pa.SchemaModel):
 
 
 PenguinDataset = DataFrame[PenguinsSchema]
-DataSplits = NamedTuple("DataSplits", train=PenguinDataset, test=PenguinDataset)
+DataSplits = NamedTuple(
+    "DataSplits", train=PenguinDataset, test=PenguinDataset
+)
 
 
 @task
@@ -45,13 +48,19 @@ def get_data() -> PenguinDataset:
 
 
 @task
-def split_data(data: PenguinDataset, test_size: float, random_state: int) -> DataSplits:
-    return train_test_split(data, test_size=test_size, random_state=random_state)
+def split_data(
+    data: PenguinDataset, test_size: float, random_state: int
+) -> DataSplits:
+    return train_test_split(
+        data, test_size=test_size, random_state=random_state
+    )
 
 
 @workflow
 def get_splits(test_size: float = 0.2, random_state: int = 123) -> DataSplits:
-    return split_data(data=get_data(), test_size=test_size, random_state=random_state)
+    return split_data(
+        data=get_data(), test_size=test_size, random_state=random_state
+    )
 
 
 if __name__ == "__main__":

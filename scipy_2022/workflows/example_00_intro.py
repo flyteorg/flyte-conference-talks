@@ -16,7 +16,12 @@ from flytekit import task, workflow
 
 
 TARGET = "species"
-FEATURES = ["bill_length_mm", "bill_depth_mm", "flipper_length_mm", "body_mass_g"]
+FEATURES = [
+    "bill_length_mm",
+    "bill_depth_mm",
+    "flipper_length_mm",
+    "body_mass_g",
+]
 
 
 @task
@@ -32,12 +37,18 @@ def get_data() -> pd.DataFrame:
 def split_data(
     data: pd.DataFrame, test_size: float, random_state: int
 ) -> Tuple[pd.DataFrame, pd.DataFrame]:
-    return train_test_split(data, test_size=test_size, random_state=random_state)
+    return train_test_split(
+        data, test_size=test_size, random_state=random_state
+    )
 
 
 @task
-def train_model(data: pd.DataFrame, hyperparameters: dict) -> LogisticRegression:
-    return LogisticRegression(**hyperparameters).fit(data[FEATURES], data[TARGET])
+def train_model(
+    data: pd.DataFrame, hyperparameters: dict
+) -> LogisticRegression:
+    return LogisticRegression(**hyperparameters).fit(
+        data[FEATURES], data[TARGET]
+    )
 
 
 @task

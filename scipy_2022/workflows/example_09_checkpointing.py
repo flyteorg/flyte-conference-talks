@@ -29,7 +29,7 @@ def train_model(
     """
     Caching and workflow recovery is great, but what if your training
     task fails before completing?
-    
+
     ✨ Use intra-task checkpoints to resume training within a task so that
     you don't have to start from scratch.
     """
@@ -68,12 +68,18 @@ def train_model(
 
 
 @workflow
-def training_workflow(n_epochs: int, hyperparameters: Hyperparameters) -> SGDClassifier:
+def training_workflow(
+    n_epochs: int, hyperparameters: Hyperparameters
+) -> SGDClassifier:
     data = get_data()
-    model = train_model(data=data, n_epochs=n_epochs, hyperparameters=hyperparameters)
+    model = train_model(
+        data=data, n_epochs=n_epochs, hyperparameters=hyperparameters
+    )
     return model
 
 
 if __name__ == "__main__":
     hyperparameters = Hyperparameters(penalty="l1", random_state=12345)
-    print(f"{training_workflow(n_epochs=100, hyperparameters=hyperparameters)}")
+    print(
+        f"{training_workflow(n_epochs=100, hyperparameters=hyperparameters)}"
+    )

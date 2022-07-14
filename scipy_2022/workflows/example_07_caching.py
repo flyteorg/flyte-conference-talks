@@ -21,13 +21,17 @@ from workflows.example_06_reproducibility import (
 
 
 @task(cache=True, cache_version="1")
-def train_model(data: pd.DataFrame, hyperparameters: Hyperparameters) -> SGDClassifier:
+def train_model(
+    data: pd.DataFrame, hyperparameters: Hyperparameters
+) -> SGDClassifier:
     """
     🎒 Caching allows you to recover from a grid search tuning workflow so that you
     don't have to re-train models given the same data and hyperparameters.
     """
     print(f"training with hyperparameters: {hyperparameters}")
-    return SGDClassifier(**asdict(hyperparameters)).fit(data[FEATURES], data[TARGET])
+    return SGDClassifier(**asdict(hyperparameters)).fit(
+        data[FEATURES], data[TARGET]
+    )
 
 
 @dynamic
@@ -41,7 +45,8 @@ def tune_model(
         data=tune_data, test_size=val_size, random_state=random_state
     )
     models = [
-        train_model(data=train_data, hyperparameters=hp) for hp in hyperparam_grid
+        train_model(data=train_data, hyperparameters=hp)
+        for hp in hyperparam_grid
     ]
     model, _ = get_best_model(models=models, val_data=val_data)
     return model
@@ -57,7 +62,9 @@ def tuning_workflow(
 
     # get and split data
     data = get_data()
-    tune_data, _ = split_data(data=data, test_size=test_size, random_state=random_state)
+    tune_data, _ = split_data(
+        data=data, test_size=test_size, random_state=random_state
+    )
 
     # tune model over hyperparameter grid
     best_model = tune_model(
@@ -71,6 +78,7 @@ def tuning_workflow(
 
 if __name__ == "__main__":
     hyperparam_grid = [
-        Hyperparameters(alpha=alpha) for alpha in [10.0, 1.0, 0.1, 0.01, 0.001, 0.0001]
+        Hyperparameters(alpha=alpha)
+        for alpha in [10.0, 1.0, 0.1, 0.01, 0.001, 0.0001]
     ]
     print(f"{tuning_workflow(hyperparam_grid=hyperparam_grid)}")

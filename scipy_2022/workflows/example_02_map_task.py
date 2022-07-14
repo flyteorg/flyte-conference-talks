@@ -24,6 +24,7 @@ from workflows.example_01_dynamic import get_best_model
 @dataclass
 class TrainArgs:
     """✨ Create a data-type to encapsulate the arguments to a single training run"""
+
     data: StructuredDataset
     hyperparameters: dict
 
@@ -42,7 +43,6 @@ def prepare_train_args(
 ) -> List[TrainArgs]:
     """👜 We then create a task to create a list of TrainArgs to map over."""
     return [TrainArgs(train_data, hp) for hp in hyperparam_grid]
-
 
 
 @workflow

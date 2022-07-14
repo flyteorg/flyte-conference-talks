@@ -26,7 +26,9 @@ def get_data() -> pd.DataFrame:
 
 
 @task(requests=resources, limits=resources)
-def get_data_annotated() -> Annotated[pd.DataFrame, FrameProfilingRenderer("penguins")]:
+def get_data_annotated() -> Annotated[
+    pd.DataFrame, FrameProfilingRenderer("penguins")
+]:
     """
     🃏 Flyte Decks can also be rendered at the output interface of your tasks.
     """

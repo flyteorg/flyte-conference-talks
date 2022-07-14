@@ -21,7 +21,9 @@ from workflows.example_06_reproducibility import (
 
 
 @task(cache=True, cache_version="1", retries=3)
-def train_model(data: pd.DataFrame, hyperparameters: Hyperparameters) -> SGDClassifier:
+def train_model(
+    data: pd.DataFrame, hyperparameters: Hyperparameters
+) -> SGDClassifier:
     """
     🎒 Caching and workflow recovery allows you to recover from a grid search tuning
     workflow that may have failed due to system-level or exogenous factors.
@@ -34,9 +36,13 @@ def train_model(data: pd.DataFrame, hyperparameters: Hyperparameters) -> SGDClas
     # simulate system-level error: per trail, introduce
     # a chance of failure 5% of the time
     if random() < 0.05:
-        raise RuntimeError(f"🔥 Something went wrong with hyperparameters {hyperparameters}! 🔥")
+        raise RuntimeError(
+            f"🔥 Something went wrong with hyperparameters {hyperparameters}! 🔥"
+        )
 
-    return SGDClassifier(**asdict(hyperparameters)).fit(data[FEATURES], data[TARGET])
+    return SGDClassifier(**asdict(hyperparameters)).fit(
+        data[FEATURES], data[TARGET]
+    )
 
 
 @dynamic
@@ -58,7 +64,8 @@ def tune_model(
         data=tune_data, test_size=val_size, random_state=random_state
     )
     models = [
-        train_model(data=train_data, hyperparameters=hp) for hp in hyperparam_grid
+        train_model(data=train_data, hyperparameters=hp)
+        for hp in hyperparam_grid
     ]
     model, _ = get_best_model(models=models, val_data=val_data)
     return model
@@ -74,7 +81,9 @@ def tuning_workflow(
 
     # get and split data
     data = get_data()
-    tune_data, _ = split_data(data=data, test_size=test_size, random_state=random_state)
+    tune_data, _ = split_data(
+        data=data, test_size=test_size, random_state=random_state
+    )
 
     # tune model over hyperparameter grid
     best_model = tune_model(

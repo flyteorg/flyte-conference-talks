@@ -46,7 +46,8 @@ def tune_model(
         data=tune_data, test_size=val_size, random_state=random_state
     )
     models = [
-        train_model(data=train_data, hyperparameters=hp) for hp in hyperparam_grid
+        train_model(data=train_data, hyperparameters=hp)
+        for hp in hyperparam_grid
     ]
     return get_best_model(models=models, val_data=val_data)
 

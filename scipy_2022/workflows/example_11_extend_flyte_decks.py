@@ -19,12 +19,15 @@ from workflows.example_06_reproducibility import Hyperparameters
 
 class SklearnEstimatorRenderer:
     """🃏 Easily extend Flyte Decks to visualize our model pipeline"""
+
     def to_html(self, pipeline: Pipeline) -> str:
         return estimator_html_repr(pipeline)
 
 
 @task
-def train_model(data: pd.DataFrame, hyperparameters: Hyperparameters) -> Pipeline:
+def train_model(
+    data: pd.DataFrame, hyperparameters: Hyperparameters
+) -> Pipeline:
     pipeline = Pipeline(
         [
             ("preprocessing", StandardScaler()),
@@ -37,6 +40,7 @@ def train_model(data: pd.DataFrame, hyperparameters: Hyperparameters) -> Pipelin
 
 class ConfusionMatrixRenderer:
     """🃏 They can even be used to render plots 📊"""
+
     def to_html(self, cm_display: ConfusionMatrixDisplay) -> str:
         buf = BytesIO()
         cm_display.plot().figure_.savefig(buf, format="png")
@@ -47,7 +51,9 @@ class ConfusionMatrixRenderer:
 @task
 def evaluate(model: Pipeline, data: pd.DataFrame, split: str):
     cm_display = ConfusionMatrixDisplay(
-        confusion_matrix=confusion_matrix(data[TARGET], model.predict(data[FEATURES])),
+        confusion_matrix=confusion_matrix(
+            data[TARGET], model.predict(data[FEATURES])
+        ),
         display_labels=model.named_steps["classifier"].classes_,
     )
     Deck(f"evaluation {split}", ConfusionMatrixRenderer().to_html(cm_display))
@@ -70,5 +76,7 @@ def training_workflow(
 
 
 if __name__ == "__main__":
-    hyperparameters = Hyperparameters(penalty="l1", alpha=0.03, random_state=12345)
+    hyperparameters = Hyperparameters(
+        penalty="l1", alpha=0.03, random_state=12345
+    )
     print(f"{training_workflow(hyperparameters=hyperparameters)}")

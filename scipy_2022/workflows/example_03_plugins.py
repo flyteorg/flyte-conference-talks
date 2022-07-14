@@ -35,7 +35,7 @@ PenquinsDataset = Annotated[
         bill_depth_mm=float,
         flipper_length_mm=float,
         body_mass_g=float,
-    )
+    ),
 ]
 
 
@@ -69,7 +69,9 @@ def scale(data: pd.DataFrame):
 @task
 def preprocess_data(data: PenquinsDataset) -> PenquinsDataset:
     data = data.open(pd.DataFrame).all()
-    penguins = data[[TARGET] + FEATURES].dropna().sample(frac=1.0, random_state=42)
+    penguins = (
+        data[[TARGET] + FEATURES].dropna().sample(frac=1.0, random_state=42)
+    )
     penguins[FEATURES] = scale(penguins[FEATURES])
     return PenquinsDataset(penguins)
 
@@ -84,7 +86,9 @@ def preprocess_data(data: PenquinsDataset) -> PenquinsDataset:
         }
     ),
 )
-def preprocess_data_pyspark(data: pyspark.sql.DataFrame) -> pyspark.sql.DataFrame:
+def preprocess_data_pyspark(
+    data: pyspark.sql.DataFrame,
+) -> pyspark.sql.DataFrame:
     """
     🔌 Another kind of plugin is the task config plugin. By specifying the `task_config`
     argument with the `Spark` task config, the Flyte cluster will provision an ephemeral
@@ -115,7 +119,9 @@ def train_model(
         nn.Linear(hyperparameters.hidden_dim, hyperparameters.out_dim),
         nn.Softmax(dim=1),
     )
-    opt = torch.optim.Adam(model.parameters(), lr=hyperparameters.learning_rate)
+    opt = torch.optim.Adam(
+        model.parameters(), lr=hyperparameters.learning_rate
+    )
 
     # train for n_epochs
     for _ in range(n_epochs):
@@ -134,7 +140,9 @@ def training_workflow(
     hyperparameters: Hyperparameters,
 ) -> nn.Sequential:
     data = preprocess_data(data=get_data())
-    return train_model(data=data, n_epochs=n_epochs, hyperparameters=hyperparameters)
+    return train_model(
+        data=data, n_epochs=n_epochs, hyperparameters=hyperparameters
+    )
 
 
 if __name__ == "__main__":
