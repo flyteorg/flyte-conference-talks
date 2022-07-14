@@ -16,8 +16,10 @@ def get_data() -> pd.DataFrame:
     """
     ✨ Flyte's rich type system allows for static analysis of the execution graph at
     registration time, raising a compile-time error if the type annotations between
-    functions aren't compatible. Try changing the output signature of this function
-    to a `dict` and see what you get when you register this task.
+    functions aren't compatible.
+
+    😈 Try changing the output signature of this function to a `dict` and see what
+    you get when you register this task.
     """
     penguins = load_penguins()
     return penguins[[TARGET] + FEATURES].dropna()

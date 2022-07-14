@@ -43,8 +43,12 @@ DataSplits = NamedTuple(
 
 @task
 def get_data() -> PenguinDataset:
-    penguins = load_penguins()
-    return penguins[[TARGET] + FEATURES].dropna()
+    penguins = load_penguins()[[TARGET] + FEATURES].dropna()
+
+    ## 😈 Uncomment this line to introduce data corruption
+    # penguins = penguins.astype({"bill_length_mm": str})
+
+    return penguins
 
 
 @task
