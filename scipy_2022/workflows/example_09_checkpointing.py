@@ -36,10 +36,10 @@ def train_model(
     """
 
     # try to get previous checkpoint, if it exists
+    checkpoint = current_context().checkpoint
     try:
-        checkpoint = current_context().checkpoint
         prev_checkpoint = checkpoint.read()
-    except NotImplementedError:
+    except (NotImplementedError, ValueError):
         checkpoint, prev_checkpoint = None, False
 
     # assume that checkpoint consists of a counter of the latest epoch and model
