@@ -34,7 +34,7 @@ def train_model(data: pd.DataFrame, hyperparameters: Hyperparameters) -> SGDClas
     # simulate system-level error: per trail, introduce
     # a chance of failure 5% of the time
     if random() < 0.05:
-        raise RuntimeError("🔥 Something went wrong! 🔥")
+        raise RuntimeError(f"🔥 Something went wrong with hyperparameters {hyperparameters}! 🔥")
 
     return SGDClassifier(**asdict(hyperparameters)).fit(data[FEATURES], data[TARGET])
 

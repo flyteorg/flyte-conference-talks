@@ -53,7 +53,7 @@ def train_model(
         # simulate system-level error: per epoch, introduce
         # a chance of failure 5% of the time
         if random() < 0.05:
-            raise RuntimeError("🔥 Something went wrong! 🔥")
+            raise RuntimeError(f"🔥 Something went wrong at epoch {epoch}! 🔥")
 
         model.partial_fit(data[FEATURES], data[TARGET], classes=CLASSES)
 
