@@ -90,9 +90,10 @@ def preprocess_data_pyspark(
     data: pyspark.sql.DataFrame,
 ) -> pyspark.sql.DataFrame:
     """
-    🔌 Another kind of plugin is the task config plugin. By specifying the `task_config`
-    argument with the `Spark` task config, the Flyte cluster will provision an ephemeral
-    Spark cluster for you to perform distributed compute.
+    🔌 Another kind of plugin is the task config plugin. By specifying the
+    `task_config` argument with the `Spark` task config, the Flyte cluster
+    will provision an ephemeral Spark cluster for you to perform
+    distributed compute.
     """
     ...  # pyspark code
 
@@ -102,10 +103,10 @@ def train_model(
     data: PenquinsDataset, n_epochs: int, hyperparameters: Hyperparameters
 ) -> nn.Sequential:
     """
-    🔌 The third kind of plugin is the type transformer plugin, which enables you to
-    support types that Flyte doesn't ship with out-of-the-box. Pytorch modules, like
-    `nn.Sequential`, are supported in the flytekit.extras module, but virtually any type in
-    Python can be understood by Flyte.
+    🔌 The third kind of plugin is the type transformer plugin, which enables you
+    to support types that Flyte doesn't ship with out-of-the-box. Pytorch modules,
+    like `nn.Sequential`, are supported in the flytekit.extras module, but virtually
+    any type in Python can be understood by Flyte.
     """
     # extract features and targets
     data = data.open(pd.DataFrame).all()

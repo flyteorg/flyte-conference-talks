@@ -2,8 +2,8 @@
 
 from dataclasses import asdict
 from random import random
+from typing import List
 
-import numpy as np
 import pandas as pd
 
 from sklearn.linear_model import SGDClassifier
@@ -35,7 +35,7 @@ def train_model(
 
     # simulate system-level error: per trail, introduce
     # a chance of failure 5% of the time
-    if random() < 0.05:
+    if random() < 0.5:
         raise RuntimeError(
             f"🔥 Something went wrong with hyperparameters {hyperparameters}! 🔥"
         )
@@ -47,19 +47,13 @@ def train_model(
 
 @dynamic
 def tune_model(
-    n_alpha_samples: int,
+    alpha_grid: List[float],
     tune_data: pd.DataFrame,
     val_size: float,
     random_state: int,
 ) -> SGDClassifier:
 
-    # set the random seed
-    np.random.seed(random_state)
-
-    hyperparam_grid = [
-        Hyperparameters(alpha=alpha)
-        for alpha in np.geomspace(1e-6, 1e3, n_alpha_samples)
-    ]
+    hyperparam_grid = [Hyperparameters(alpha=alpha) for alpha in alpha_grid]
     train_data, val_data = split_data(
         data=tune_data, test_size=val_size, random_state=random_state
     )
@@ -73,7 +67,7 @@ def tune_model(
 
 @workflow
 def tuning_workflow(
-    n_alpha_samples: int,
+    alpha_grid: List[float],
     val_size: float = 0.2,
     test_size: float = 0.2,
     random_state: int = 42,
@@ -87,7 +81,7 @@ def tuning_workflow(
 
     # tune model over hyperparameter grid
     best_model = tune_model(
-        n_alpha_samples=n_alpha_samples,
+        alpha_grid=alpha_grid,
         tune_data=tune_data,
         val_size=val_size,
         random_state=random_state,
@@ -96,4 +90,5 @@ def tuning_workflow(
 
 
 if __name__ == "__main__":
-    print(f"{tuning_workflow(n_alpha_samples=100)}")
+    alpha_grid = [100.0, 10.0, 1.0, 0.1, 0.01, 0.001, 0.0001, 0.00001]
+    print(f"{tuning_workflow(alpha_grid=alpha_grid)}")

@@ -1,7 +1,10 @@
 """Flyte Intro: Tasks and Workflows.
 
-These examples will use the penguins dataset: https://allisonhorst.github.io/palmerpenguins/
-Using the pypi package: https://pypi.org/project/palmerpenguins/
+These examples will use the penguins dataset:
+https://allisonhorst.github.io/palmerpenguins/
+
+Using the pypi package:
+https://pypi.org/project/palmerpenguins/
 """
 
 from typing import Tuple

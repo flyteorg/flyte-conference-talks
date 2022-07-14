@@ -10,6 +10,7 @@ import pandas as pd
 from sklearn.linear_model import SGDClassifier
 
 from flytekit import task, workflow, current_context
+from flytekit.exceptions.user import FlyteRecoverableException
 
 from workflows.example_05_pandera_types import CLASSES
 from workflows.example_06_reproducibility import (
@@ -53,7 +54,9 @@ def train_model(
         # simulate system-level error: per epoch, introduce
         # a chance of failure 5% of the time
         if random() < 0.05:
-            raise RuntimeError(f"🔥 Something went wrong at epoch {epoch}! 🔥")
+            raise FlyteRecoverableException(
+                f"🔥 Something went wrong at epoch {epoch}! 🔥"
+            )
 
         model.partial_fit(data[FEATURES], data[TARGET], classes=CLASSES)
 
