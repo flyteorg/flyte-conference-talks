@@ -44,7 +44,7 @@ PenquinsDataset = Annotated[
 # functions. This SQLite task plugin allows you to perform queries on
 # local or remote SQLite databases.
 get_data = SQLite3Task(
-    name="cookbook.sqlite3.sample",
+    name="get_penguins_data",
     query_template="""
     SELECT
         species,
