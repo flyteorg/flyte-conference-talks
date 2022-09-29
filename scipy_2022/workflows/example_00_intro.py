@@ -29,10 +29,6 @@ FEATURES = [
 
 @task
 def get_data() -> pd.DataFrame:
-    """
-    🧱 A task is the fundamental building block and basic unit of compute.
-    You can think of these as strongly typed dockerized python functions.
-    """
     return load_penguins()[[TARGET] + FEATURES].dropna()
 
 
@@ -65,11 +61,6 @@ def training_workflow(
     test_size: float = 0.2,
     random_state: int = 42,
 ) -> Tuple[LogisticRegression, float, float]:
-    """
-    🔀 Workflows are the core abstraction for composing tasks together into
-    meaningful applications. These are statically compiled execution graphs.
-    """
-
     # get and split data
     data = get_data()
     train_data, test_data = split_data(
@@ -90,12 +81,8 @@ def training_workflow(
 training_launchplan = LaunchPlan.create(
     "scheduled_training_workflow",
     training_workflow,
-
-    # run every hour
-    schedule=CronSchedule(schedule="@hourly"),
-    
-    # use default inputs
-    default_inputs={"hyperparameters": {"C": 0.1, "max_iter": 1000}},
+    schedule=CronSchedule(schedule="@hourly"),  # run every hour
+    default_inputs={"hyperparameters": {"C": 0.1, "max_iter": 1000}},  # use default inputs
 )
 
 
