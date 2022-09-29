@@ -12,7 +12,7 @@ from workflows.example_00_intro import FEATURES, TARGET
 
 
 @task
-def get_data() -> pd.DataFrame:
+def get_data() -> dict:
     """
     ✨ Flyte's rich type system allows for static analysis of the execution graph at
     registration time, raising a compile-time error if the type annotations between

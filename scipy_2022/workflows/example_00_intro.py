@@ -15,7 +15,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 
-from flytekit import task, workflow
+from flytekit import task, workflow, LaunchPlan, CronSchedule
 
 
 TARGET = "species"
@@ -85,6 +85,18 @@ def training_workflow(
 
     # return model with results
     return model, train_acc, test_acc
+
+
+training_launchplan = LaunchPlan.create(
+    "scheduled_training_workflow",
+    training_workflow,
+
+    # run every hour
+    schedule=CronSchedule(schedule="@hourly"),
+    
+    # use default inputs
+    default_inputs={"hyperparameters": {"C": 0.1, "max_iter": 1000}},
+)
 
 
 if __name__ == "__main__":
