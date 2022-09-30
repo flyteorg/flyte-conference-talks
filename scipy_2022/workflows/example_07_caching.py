@@ -46,10 +46,6 @@ def split_data(
 def train_model(
     data: pd.DataFrame, hyperparameters: Hyperparameters
 ) -> SGDClassifier:
-    """
-    🎒 Caching allows you to recover from a grid search tuning workflow so that you
-    don't have to re-train models given the same data and hyperparameters.
-    """
     print(f"training with hyperparameters: {hyperparameters}")
     return SGDClassifier(**asdict(hyperparameters)).fit(
         data[FEATURES], data[TARGET]

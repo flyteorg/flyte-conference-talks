@@ -1,8 +1,9 @@
 """Flyte Intro: Type and Task Plugin Examples."""
 
 from dataclasses import dataclass
-from typing import Annotated, Union
+from typing import Annotated
 
+import modin.pandas
 import pandas as pd
 import pyspark.sql
 import torch
@@ -14,6 +15,8 @@ from flytekit.types.structured import StructuredDataset
 from flytekit import kwtypes, task, workflow
 from flytekit.extras.sqlite3.task import SQLite3Config, SQLite3Task
 from flytekitplugins.spark import Spark
+from flytekitplugins.ray import HeadNodeConfig, RayJobConfig, WorkerNodeConfig
+
 
 from workflows.example_00_intro import FEATURES, TARGET
 
@@ -78,7 +81,6 @@ def preprocess_data(data: PenquinsDataset) -> PenquinsDataset:
 
 @task(
     task_config=Spark(
-        # this configuration is applied to the spark cluster
         spark_conf={
             "spark.driver.memory": "1000M",
             "spark.executor.instances": "2",
@@ -89,13 +91,23 @@ def preprocess_data(data: PenquinsDataset) -> PenquinsDataset:
 def preprocess_data_pyspark(
     data: pyspark.sql.DataFrame,
 ) -> pyspark.sql.DataFrame:
-    """
-    🔌 Another kind of plugin is the task config plugin. By specifying the
-    `task_config` argument with the `Spark` task config, the Flyte cluster
-    will provision an ephemeral Spark cluster for you to perform
-    distributed compute.
-    """
     ...  # pyspark code
+
+
+@task(
+    task_config=RayJobConfig(
+        worker_node_config=[
+            WorkerNodeConfig(
+                group_name="ray-group",
+                replicas=2,
+            )
+        ],
+    )
+)
+def preprocess_data_ray(
+    data: modin.pandas.DataFrame,
+) -> modin.pandas.DataFrame:
+    ...  # ray code
 
 
 @task

@@ -81,8 +81,12 @@ def training_workflow(
 training_launchplan = LaunchPlan.create(
     "scheduled_training_workflow",
     training_workflow,
-    schedule=CronSchedule(schedule="@hourly"),  # run every hour
-    default_inputs={"hyperparameters": {"C": 0.1, "max_iter": 1000}},  # use default inputs
+
+    # run every hour
+    schedule=CronSchedule(schedule="@hourly"),
+
+    # use default inputs
+    default_inputs={"hyperparameters": {"C": 0.1, "max_iter": 1000}},
 )
 
 
