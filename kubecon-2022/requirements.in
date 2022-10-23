@@ -1,0 +1,11 @@
+flytekit
+flytekitplugins-deck-standard
+flytekitplugins-spark
+flytekitplugins-ray
+ray[default]==1.13.0
+dataclasses_json
+palmerpenguins
+pandas
+pyspark
+scikit-learn
+grpcio-status==1.43.0
