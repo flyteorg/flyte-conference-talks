@@ -62,4 +62,7 @@
     pyflyte run --remote --image ghcr.io/samhita-alla/kubecon-demo:0.0.2 workflows/example_03_map_task.py tuning_workflow
     ```
 
-Refer to the [Flyte cheat sheet](https://raw.githubusercontent.com/flyteorg/static-resources/main/cheatsheets/flyte_cheat_sheet.pdf)
+## Resources
+
+- [Flyte cheat sheet](https://raw.githubusercontent.com/flyteorg/static-resources/main/cheatsheets/flyte_cheat_sheet.pdf)
+- [Documentation](https://docs.flyte.org/)
