@@ -1,4 +1,6 @@
-.venv
+# Repo-specific files
+.kube
+.config
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -129,3 +131,12 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# IDE
+.idea/*
+
+# Flyte serialization artifacts
+_pb_output
+_pb_output/*
+
+flyte-package.tgz
