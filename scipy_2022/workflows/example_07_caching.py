@@ -8,7 +8,7 @@ from palmerpenguins import load_penguins
 from sklearn.linear_model import SGDClassifier
 from sklearn.model_selection import train_test_split
 
-from flytekit import task, workflow, dynamic, HashMethod
+from flytekit import task, workflow, dynamic, HashMethod, Resources
 
 
 from workflows.example_00_intro import split_data
@@ -42,7 +42,12 @@ def split_data(
     )
 
 
-@task(cache=True, cache_version="1")
+@task(
+    cache=True,
+    cache_version="1",
+    retries=3,
+    requests=Resources(gpu="1", mem="10Gi"),
+)
 def train_model(
     data: pd.DataFrame, hyperparameters: Hyperparameters
 ) -> SGDClassifier:

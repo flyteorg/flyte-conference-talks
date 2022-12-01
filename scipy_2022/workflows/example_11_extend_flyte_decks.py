@@ -39,7 +39,6 @@ def train_model(
 
 
 class ConfusionMatrixRenderer:
-    """🃏 They can even be used to render plots 📊"""
 
     def to_html(self, cm_display: ConfusionMatrixDisplay) -> str:
         buf = BytesIO()
