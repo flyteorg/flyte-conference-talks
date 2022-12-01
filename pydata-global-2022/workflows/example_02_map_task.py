@@ -7,7 +7,7 @@ import pandas as pd
 from sklearn.linear_model import LogisticRegression
 from dataclasses_json import dataclass_json
 
-from flytekit import task, workflow, map_task
+from flytekit import task, workflow, map_task, Resources
 from flytekit.types.structured import StructuredDataset
 
 from workflows.example_00_intro import (
@@ -29,7 +29,8 @@ class TrainArgs:
     hyperparameters: dict
 
 
-@task
+# ⛰ Scaling by provisioning more compute/memory at the task-level
+@task(requests=Resources(cpu="2", mem="1Gi"))
 def train_model(train_args: TrainArgs) -> LogisticRegression:
     """This is a unary task function for our model to make it mappable"""
     data: pd.DataFrame = train_args.data.open(pd.DataFrame).all()
@@ -56,7 +57,8 @@ def tune_model(
     train_data, val_data = split_data(
         data=tune_data, test_size=val_size, random_state=random_state
     )
-    # wrapping the `train_model` task in `map_task` allows us to parallelize
+    # ⛰ Scaling by splitting work across multiple tasks:
+    # Wrapping the `train_model` task in `map_task` allows us to parallelize
     # our grid search.
     models = map_task(train_model, concurrency=5)(
         train_args=prepare_train_args(

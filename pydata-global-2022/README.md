@@ -37,7 +37,7 @@ pyflyte --pkgs workflows package --image ghcr.io/flyteorg/flyte-conference-talks
 Register
 
 ```bash
-flytectl register files --project pydata-global-2022 --domain development --archive flyte-package.tgz --version v2
+flytectl register files --project flytesnacks --domain development --archive flyte-package.tgz --version v0
 ```
 
 Fast Register
@@ -47,5 +47,5 @@ Fast Register
 pyflyte --pkgs workflows package --image ghcr.io/flyteorg/flyte-conference-talks:scipy-2022-v1 --fast -f
 
 # fast register
-flytectl register files --project pydata-global-2022 --domain development --archive flyte-package.tgz --version v0-fast0
+flytectl register files --project flytesnacks --domain development --archive flyte-package.tgz --version v0-fast0
 ```

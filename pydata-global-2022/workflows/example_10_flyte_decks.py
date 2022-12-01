@@ -14,7 +14,7 @@ from flytekitplugins.deck import FrameProfilingRenderer
 resources = Resources(mem="1Gi")
 
 
-@task(requests=resources, limits=resources)
+@task(requests=resources, limits=resources, disable_deck=False)
 def get_data() -> pd.DataFrame:
     """
     🃏 Flyte Decks allow you to render html in the Flyte console so you can
@@ -25,7 +25,7 @@ def get_data() -> pd.DataFrame:
     return penguins
 
 
-@task(requests=resources, limits=resources)
+@task(requests=resources, limits=resources, disable_deck=False)
 def get_data_annotated() -> Annotated[
     pd.DataFrame, FrameProfilingRenderer("penguins")
 ]:

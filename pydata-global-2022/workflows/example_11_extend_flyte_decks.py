@@ -24,7 +24,7 @@ class SklearnEstimatorRenderer:
         return estimator_html_repr(pipeline)
 
 
-@task
+@task(disable_deck=False)
 def train_model(
     data: pd.DataFrame, hyperparameters: Hyperparameters
 ) -> Pipeline:
@@ -47,7 +47,7 @@ class ConfusionMatrixRenderer:
         return f"<img src='data:image/png;base64,{encoded}'>"
 
 
-@task
+@task(disable_deck=False)
 def evaluate(model: Pipeline, data: pd.DataFrame, split: str):
     cm_display = ConfusionMatrixDisplay(
         confusion_matrix=confusion_matrix(

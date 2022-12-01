@@ -40,7 +40,7 @@ PenquinsDataset = Annotated[
 ]
 
 
-# 🔌 One type of plugin in Flyte is the task template plugin.
+# 🔌 The first type of plugin in Flyte is the task template plugin.
 # These are task objects that can be used like the regular @task
 # functions. This SQLite task plugin allows you to perform queries on
 # local or remote SQLite databases.

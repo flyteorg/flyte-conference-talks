@@ -30,6 +30,7 @@ TuningResults = NamedTuple(
 )
 
 
+# ⛰ Scaling by splitting work across multiple tasks
 @dynamic
 def tune_model(
     hyperparam_grid: List[dict],
