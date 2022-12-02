@@ -1,12 +1,10 @@
 # Flyte Tutorial: Pydata Global 2022
 
-## Production-grade Machine Learning with Flyte
-
----
-
 This directory contains the workshop materials for [Pydata global 2022](https://pydata.org/global2022/).
 
-## Abstract
+## Production-grade Machine Learning with Flyte
+
+### Abstract
 
 As the discipline of machine learning Operations (MLOps) matures, it’s becoming
 clear that, in practice, building ML models poses additional challenges compared
@@ -82,11 +80,12 @@ instructions if you want to run a Flyte cluster on your local machine.
 Go to https://sandbox.union.ai and create an account via Github or Google. Then,
 click **Start Sandbox**. This will take 1-2 minutes to launch.
 
-![flyte sandbox start](static/flyte_sandbox_start.png)
+<img src="static/flyte_sandbox_start.png" alt="flyte sandbox start" width="600"/>
+
 
 When the sandbox is ready, click **Code Editor**, which will take you to a VSCode IDE.
 
-![flyte sandbox ready](static/flyte_sandbox_ready.png)
+<img src="static/flyte_sandbox_ready.png" alt="flyte sandbox ready" width="600"/>
 
 In the terminal, clone this repo and go to the workshop directory:
 
