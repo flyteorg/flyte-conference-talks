@@ -37,7 +37,7 @@ pipeline auditability.
 ### Introduction [20 minutes]
 
 - **Environment Setup**: Setting up your Flyte Sandbox environment.
-- **Flyte Tasks and Workflows**: The building blocks for expressing execution graphs.
+- **Flyte Basics**: The building blocks for expressing execution graphs.
 
 ### Scalability [15 minutes]
 
@@ -131,7 +131,7 @@ source ~/venvs/pydata-global-2022/bin/activate
 Install dependencies
 
 ```
-pip install -r requirements.txt
+pip install -e .
 ```
 
 [Install Flytectl](https://docs.flyte.org/projects/flytectl/en/latest/#installation),
@@ -139,4 +139,11 @@ then start a Flyte demo cluster:
 
 ```
 flytectl demo start --source .
+```
+
+Then build the docker image for the tutorial inside the cluster:
+
+```
+export IMAGE=ghcr.io/flyteorg/flyte-conference-talks:pydata-global-2022-latest
+flytectl demo exec -- docker build . --tag $IMAGE
 ```

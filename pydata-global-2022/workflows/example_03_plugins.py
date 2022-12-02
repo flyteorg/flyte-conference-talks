@@ -11,7 +11,7 @@ import torch.nn.functional as F
 from dataclasses_json import dataclass_json
 
 from flytekit.types.structured import StructuredDataset
-from flytekit import kwtypes, task, workflow
+from flytekit import kwtypes, task, workflow, Resources
 from flytekit.extras.sqlite3.task import SQLite3Config, SQLite3Task
 from flytekitplugins.spark import Spark
 
@@ -92,7 +92,7 @@ def preprocess_data_pyspark(
     ...  # pyspark code
 
 
-@task
+@task(requests=Resources(cpu="2", mem="1Gi"))
 def train_model(
     data: PenquinsDataset, n_epochs: int, hyperparameters: Hyperparameters
 ) -> nn.Sequential:
