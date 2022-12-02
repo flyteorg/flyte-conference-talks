@@ -6,4 +6,5 @@ sandbox-setup:
 	pip install --no-cache-dir --user pandas && \
 	pip install --no-cache-dir --user scikit-learn && \
 	pip install --no-cache-dir --user flytekit>=1.2.4 flytekitplugins-deck-standard flytekitplugins-pandera flytekitplugins-spark flytekitplugins-ray && \
-	pip install --no-cache-dir --user -r requirements.txt
+	pip install --no-cache-dir --user -r requirements.txt && \
+	pip install --no-cache-dir --user -e .

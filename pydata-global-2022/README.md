@@ -100,7 +100,17 @@ Install dependencies with
 make sandbox-setup
 ```
 
-To make sure everything's working, run `python workflows/example_00_intro.py`
+To make sure everything's working, run
+
+```
+python workflows/example_00_intro.py
+```
+
+Expected output:
+
+```
+DefaultNamedTupleOutput(o0=LogisticRegression(C=0.1, max_iter=5000.0), o1=0.989010989010989, o2=1.0)
+```
 
 ### Local
 

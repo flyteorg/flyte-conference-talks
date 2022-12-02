@@ -17,6 +17,8 @@ from sklearn.linear_model import LogisticRegression
 
 from flytekit import task, workflow, LaunchPlan, CronSchedule
 
+from workflows import logger
+
 
 TARGET = "species"
 FEATURES = [
