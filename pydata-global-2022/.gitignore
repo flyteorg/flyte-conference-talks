@@ -1,4 +1,5 @@
 # Repo-specific files
+.venv
 .kube
 .config
 
