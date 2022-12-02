@@ -24,7 +24,7 @@ class Hyperparameters:
 
 
 # 🔄 Compute-level reproducibility: encode compute and memory requirements
-@task(requests=Resources(cpu="2", mem="1Mi"))
+@task(requests=Resources(cpu="2", mem="1Gi"))
 def get_data() -> pd.DataFrame:
     return load_penguins()[[TARGET] + FEATURES].dropna()
 

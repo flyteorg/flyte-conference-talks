@@ -4,15 +4,15 @@
 
 Build and push docker image:
 
-```bash
-./docker_build_and_tag.sh -r ghcr.io/flyteorg -a flyte-conference-talks -v pydata-global-2022-v0
-docker push ghcr.io/flyteorg/flyte-conference-talks:pydata-global-2022-v0
+```
+make docker-build-push
 ```
 
 Serialize
 
 ```bash
-pyflyte --pkgs workflows package --image ghcr.io/flyteorg/flyte-conference-talks:scipy-2022-v1 -f
+IMAGE=ghcr.io/flyteorg/flyte-conference-talks:pydata-global-2022-latest
+pyflyte --pkgs workflows package --image $IMAGE -f
 ```
 
 Register
@@ -24,9 +24,6 @@ flytectl register files --project flytesnacks --domain development --archive fly
 Fast Register
 
 ```bash
-# fast serialize
-pyflyte --pkgs workflows package --image ghcr.io/flyteorg/flyte-conference-talks:scipy-2022-v1 --fast -f
-
-# fast register
+pyflyte --pkgs workflows package --image $IMAGE --fast -f
 flytectl register files --project flytesnacks --domain development --archive flyte-package.tgz --version v0-fast0
 ```

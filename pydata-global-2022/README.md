@@ -124,8 +124,8 @@ cd flyte-conference-talks/pydata-global-2022
 Create a virtual environment
 
 ```
-python -m venv .venv
-source .venv/bin/activate
+python -m venv ~/venvs/pydata-global-2022
+source ~/venvs/pydata-global-2022/bin/activate
 ```
 
 Install dependencies
