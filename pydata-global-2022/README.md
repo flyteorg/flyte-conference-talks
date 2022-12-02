@@ -1,51 +1,133 @@
-# scipy_2022
+# Flyte Tutorial: Pydata Global 2022
 
-A template for the recommended layout of a Flyte enabled repository for code written in python using [flytekit](https://docs.flyte.org/projects/flytekit/en/latest/).
+## Production-grade Machine Learning with Flyte
 
-## Usage
+---
 
-To get up and running with your Flyte project, we recommend following the
-[Flyte getting started guide](https://docs.flyte.org/en/latest/getting_started.html).
+This directory contains the workshop materials for [Pydata global 2022](https://pydata.org/global2022/).
+
+## Abstract
+
+As the discipline of machine learning Operations (MLOps) matures, it’s becoming
+clear that, in practice, building ML models poses additional challenges compared
+to the traditional software development lifecycle. This tutorial will focus on
+four challenges in the context of ML model development:
+
+- Scalability
+- Data quality
+- Reproducibility
+- Recoverability
+- Auditability
+
+Using Flyte, a data- and machine-learning-aware open source workflow orchestrator,
+we’ll see how to address these challenges and abstract them out to give you a
+broader understanding of how to surmount them.
+
+First we'll define and describe what these four challenges mean in the context
+of ML model development. Then I’ll dive into the ways in which Flyte provides
+solutions to them, taking you through the reasoning behind Flyte’s data-centric
+and ML-aware design.
+
+You'll learn how Flyte distributes and scales computation, enforces static and
+runtime type safety, leverages Docker to provide strong reproducibility
+guarantees, implements caching and checkpointing to recover from failed model
+training runs, and ships with built-in data lineage tracking for full data
+pipeline auditability.
+
+## Outline
+
+### Introduction [10 minutes]
+
+- **Environment Setup**: Setting up your Flyte Sandbox environment.
+- **Flyte Tasks and Workflows**: The building blocks for expressing execution graphs.
+
+### Scalability [15 minutes]
+
+- **Dynamic Workflows**: Defining execution graphs at runtime.
+- **Map Tasks and Declarative Resource Allocation**: Scale embarrassingly parallel workflows.
+- **Plugins for Scaling**: SQL, Spark, and Ray task plugins.
+
+### Data Quality [10 minutes]
+
+- **Type System**: Understand the benefits of static type safety.
+- **DataFrame Types**: Validate tabular data at runtime.
+
+### Break [10 minutes]
+
+### Reproducibility [10 minutes]
+
+- **Containerization**: Containerize your workflows for dependency isolation.
+- **Randomness and Resource Requirements**: Code- and compute-level reproducibility.
+
+### Recoverability [15 minutes]
+
+- **Caching**: Don't waste precious compute re-running nodes.
+- **Recovering Executions**: Don't waste precious compute re-running nodes.
+- **Checkpointing**: Checkpoint progress within a node.
+
+### Auditability [10 minutes]
+
+- **Flyte Decks**: Create rich static reports associated with your data/model artifacts.
+- **Extending Flyte Decks**: Write your own Flyte Deck visualizations.
 
 
-## Deployment
+## Setup
 
-Env vars:
+Follow the **Flyte Sandbox** instructions to use the fully-managed prototyping
+environment hosted by [Union.ai](https://www.union.ai/), or the **Local**
+instructions if you want to run a Flyte cluster on your local machine.
+
+### Flyte Sandbox
+
+Go to https://sandbox.union.ai and create an account via Github or Google. Then,
+click **Start Sandbox**. This will take 1-2 minutes to launch.
+
+![flyte sandbox start](static/flyte_sandbox_start.png)
+
+When the sandbox is ready, click **Code Editor**, which will take you to a VSCode IDE.
+
+![flyte sandbox ready](static/flyte_sandbox_ready.png)
+
+In the terminal, clone this repo and go to the workshop directory:
+
 ```
-export FLYTE_CONFIG=~/.flyte/unionplayground-config.yaml
+git clone https://github.com/flyteorg/flyte-conference-talks
+cd flyte-conference-talks/pydata-global-2022
 ```
 
-Create project on Flyte cluster:
+Install dependencies with
 
-```bash
-flytectl create project --project pydata-global-2022 --name pydata-global-2022 --id pydata-global-2022 --description 'workflow examples for pydata global 2022 talk'
+```
+make sandbox-setup
 ```
 
-Build and push docker image:
+To make sure everything's working, run `python workflows/example_00_intro.py`
 
-```bash
-./docker_build_and_tag.sh -r ghcr.io/flyteorg -a flyte-conference-talks -v pydata-global-2022-v0
-docker push ghcr.io/flyteorg/flyte-conference-talks:pydata-global-2022-v0
+### Local
+
+Clone this repo and go to the workshop directory:
+
+```
+git clone https://github.com/flyteorg/flyte-conference-talks
+cd flyte-conference-talks/pydata-global-2022
 ```
 
-Serialize
+Create a virtual environment
 
-```bash
-pyflyte --pkgs workflows package --image ghcr.io/flyteorg/flyte-conference-talks:scipy-2022-v1 -f
+```
+python -m venv .venv
+source .venv/bin/activate
 ```
 
-Register
+Install dependencies
 
-```bash
-flytectl register files --project flytesnacks --domain development --archive flyte-package.tgz --version v0
+```
+pip install -r requirements.txt
 ```
 
-Fast Register
+[Install Flytectl](https://docs.flyte.org/projects/flytectl/en/latest/#installation),
+then start a Flyte demo cluster:
 
-```bash
-# fast serialize
-pyflyte --pkgs workflows package --image ghcr.io/flyteorg/flyte-conference-talks:scipy-2022-v1 --fast -f
-
-# fast register
-flytectl register files --project flytesnacks --domain development --archive flyte-package.tgz --version v0-fast0
+```
+flytectl demo start --source .
 ```
