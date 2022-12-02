@@ -42,8 +42,8 @@ pipeline auditability.
 ### Scalability [15 minutes]
 
 - **Dynamic Workflows**: Defining execution graphs at runtime.
-- **Map Tasks and Declarative Resource Allocation**: Scale embarrassingly parallel workflows.
-- **Plugins for Scaling**: SQL, Spark, and Ray task plugins.
+- **Map Tasks**: Scale embarrassingly parallel workflows.
+- **Declarative Resource Allocation and Plugins**: SQL, Spark, and Ray task plugins.
 
 ### Data Quality [10 minutes]
 

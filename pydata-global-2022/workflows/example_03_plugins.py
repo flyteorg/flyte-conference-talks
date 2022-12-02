@@ -44,22 +44,23 @@ PenquinsDataset = Annotated[
 # These are task objects that can be used like the regular @task
 # functions. This SQLite task plugin allows you to perform queries on
 # local or remote SQLite databases.
+QUERY = "SELECT species, bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g FROM penguins"
 get_data = SQLite3Task(
     name="get_penguins_data",
-    query_template="""
-    SELECT
-        species,
-        bill_length_mm,
-        bill_depth_mm,
-        flipper_length_mm,
-        body_mass_g
-    FROM penguins
-    """,
+    query_template=QUERY,
     output_schema_type=PenquinsDataset,
     task_config=SQLite3Config(
         uri="https://datasette-seaborn-demo.datasette.io/penguins.db"
     ),
 )
+
+# Other examples of this type of plugin are:
+# - SQLAlchemyTask
+# - BigQueryTask
+# - SnowflakeTask
+# - HiveTask
+# - AthenaTask
+# - FlyteOperator for Airflow
 
 
 def scale(data: pd.DataFrame):
@@ -89,6 +90,19 @@ def preprocess_data(data: PenquinsDataset) -> PenquinsDataset:
 def preprocess_data_pyspark(
     data: pyspark.sql.DataFrame,
 ) -> pyspark.sql.DataFrame:
+    """
+    🔌 The second type of task plugin is the task configuration plugin. For
+    example, the Spark plugin allows you to declaratively specify the compute
+    and memory requirements of an ephemeral Spark cluster, which is set up and
+    torn down automatically by Flyte.
+
+    Other examples of this type of plugin are:
+    - Ray operator
+    - Sagemaker operator
+    - MPI operator
+    - Kubeflow Pytorch operator
+    - Kubeflow Tensorflow operator
+    """
     ...  # pyspark code
 
 
@@ -101,6 +115,11 @@ def train_model(
     to support types that Flyte doesn't ship with out-of-the-box. Pytorch modules,
     like `nn.Sequential`, are supported in the flytekit.extras module, but virtually
     any type in Python can be understood by Flyte.
+
+    Other examples of this type of plugin are:
+    - Modin type
+    - Pandera type
+    - ONNX type
     """
     # extract features and targets
     data = data.open(pd.DataFrame).all()
