@@ -34,7 +34,7 @@ pipeline auditability.
 
 ## Outline
 
-### Introduction [15 minutes]
+### Introduction [20 minutes]
 
 - **Environment Setup**: Setting up your Flyte Sandbox environment.
 - **Flyte Tasks and Workflows**: The building blocks for expressing execution graphs.

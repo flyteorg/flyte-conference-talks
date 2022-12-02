@@ -2,17 +2,6 @@
 
 ## Deployment
 
-Env vars:
-```
-export FLYTE_CONFIG=~/.flyte/unionplayground-config.yaml
-```
-
-Create project on Flyte cluster:
-
-```bash
-flytectl create project --project pydata-global-2022 --name pydata-global-2022 --id pydata-global-2022 --description 'workflow examples for pydata global 2022 talk'
-```
-
 Build and push docker image:
 
 ```bash
