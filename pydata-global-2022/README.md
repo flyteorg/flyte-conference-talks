@@ -12,7 +12,7 @@ to the traditional software development lifecycle. This tutorial will focus on
 four challenges in the context of ML model development:
 
 - Scalability
-- Data quality
+- Data Quality
 - Reproducibility
 - Recoverability
 - Auditability

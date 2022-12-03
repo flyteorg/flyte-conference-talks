@@ -1,6 +1,8 @@
 # this is a hack, needed because of limited memory on Flyte Sandbox server
 sandbox-setup:
-	bash setup.sh && bash setup.sh
+	bash setup.sh
+	bash setup.sh
+	flytectl update task-resource-attribute --attrFile cra.yaml
 
 
 VERSION = "$(shell git rev-parse HEAD)"

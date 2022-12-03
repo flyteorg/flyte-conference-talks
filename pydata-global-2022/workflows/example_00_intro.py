@@ -17,7 +17,10 @@ from sklearn.linear_model import LogisticRegression
 
 from flytekit import task, workflow, LaunchPlan, CronSchedule
 
-from workflows import logger
+try:
+    from workflows import logger
+except:
+    pass
 
 
 TARGET = "species"
@@ -84,8 +87,8 @@ training_launchplan = LaunchPlan.create(
     "scheduled_training_workflow",
     training_workflow,
 
-    # run every hour
-    schedule=CronSchedule(schedule="*/3 * * * *"),
+    # run 2 minutes
+    schedule=CronSchedule(schedule="*/2 * * * *"),
 
     # use default inputs
     default_inputs={"hyperparameters": {"C": 0.1, "max_iter": 1000}},
