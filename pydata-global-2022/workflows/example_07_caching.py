@@ -47,6 +47,7 @@ def split_data(
     cache_version="1",
     retries=3,
     requests=Resources(cpu="2", mem="1Gi"),
+    limits=Resources(cpu="2", mem="1Gi"),
 )
 def train_model(
     data: pd.DataFrame, hyperparameters: Hyperparameters

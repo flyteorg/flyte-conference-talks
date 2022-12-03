@@ -10,7 +10,7 @@ from palmerpenguins import load_penguins
 from sklearn.model_selection import train_test_split
 
 import flytekitplugins.pandera
-from flytekit import task, workflow
+from flytekit import task, workflow, Resources
 
 from workflows.example_00_intro import (
     FEATURES,
@@ -45,7 +45,7 @@ DataSplits = NamedTuple(
 def get_data() -> PenguinDataset:
     penguins = load_penguins()[[TARGET] + FEATURES].dropna()
 
-    ## 😈 Uncomment this line to introduce data corruption
+    # 😈 Uncomment the line below to introduce data corruption
     # penguins = penguins.astype({"bill_length_mm": str})
 
     return penguins

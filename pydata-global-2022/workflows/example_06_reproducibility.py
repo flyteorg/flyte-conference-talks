@@ -24,13 +24,13 @@ class Hyperparameters:
 
 
 # 🔄 Compute-level reproducibility: encode compute and memory requirements
-@task(requests=Resources(cpu="2", mem="1Gi"))
+@task(requests=Resources(cpu="2", mem="1Gi"), limits=Resources(cpu="2", mem="1Gi"))
 def get_data() -> pd.DataFrame:
     return load_penguins()[[TARGET] + FEATURES].dropna()
 
 
 # 💻 Compute/memory requirements can be configured at task-level granularity
-@task(requests=Resources(cpu="1", mem="500Mi"))
+@task(requests=Resources(cpu="1", mem="500Mi"), limits=Resources(cpu="1", mem="750Mi"))
 def train_model(
     data: pd.DataFrame, hyperparameters: Hyperparameters
 ) -> SGDClassifier:

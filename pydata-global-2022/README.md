@@ -55,7 +55,7 @@ pipeline auditability.
 ### Reproducibility [10 minutes]
 
 - **Containerization**: Containerize your workflows for dependency isolation.
-- **Randomness and Resource Requirements**: Code- and compute-level reproducibility.
+- **Randomness and Resource Requirements**: Code- and resource-level reproducibility.
 
 ### Recoverability [15 minutes]
 
@@ -146,4 +146,10 @@ Then build the docker image for the tutorial inside the cluster:
 ```
 export IMAGE=ghcr.io/flyteorg/flyte-conference-talks:pydata-global-2022-latest
 flytectl demo exec -- docker build . --tag $IMAGE
+```
+
+Update resource attributes:
+
+```
+flytectl update task-resource-attribute --attrFile cra.yaml
 ```

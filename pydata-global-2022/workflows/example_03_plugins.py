@@ -106,7 +106,10 @@ def preprocess_data_pyspark(
     ...  # pyspark code
 
 
-@task(requests=Resources(cpu="2", mem="1Gi"))
+RESOURCES = Resources(cpu="2", mem="1Gi")
+
+
+@task(requests=RESOURCES, limits=RESOURCES)
 def train_model(
     data: PenquinsDataset, n_epochs: int, hyperparameters: Hyperparameters
 ) -> nn.Sequential:

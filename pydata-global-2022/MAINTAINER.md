@@ -18,7 +18,7 @@ pyflyte --pkgs workflows package --image $IMAGE -f
 Register
 
 ```bash
-flytectl register files --project flytesnacks --domain development --archive flyte-package.tgz --version v0
+flytectl register files --project flytesnacks --domain development --archive flyte-package.tgz --version v3
 ```
 
 Fast Register
