@@ -50,6 +50,7 @@ def split_data(
 def train_model(
     data: pd.DataFrame, hyperparameters: dict
 ) -> LogisticRegression:
+    hyperparameters["max_iter"] = int(hyperparameters["max_iter"])
     return LogisticRegression(**hyperparameters).fit(
         data[FEATURES], data[TARGET]
     )

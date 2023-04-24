@@ -1,5 +1,5 @@
 # 🐳📦 Docker containers unlock OS-level reproducibility 🔄
-FROM python:3.9-slim-buster
+FROM python:3.10-slim-buster
 
 WORKDIR /root
 ENV VENV /opt/venv

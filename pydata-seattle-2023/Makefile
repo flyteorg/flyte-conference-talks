@@ -13,7 +13,7 @@ VERSION = "$(shell git rev-parse HEAD)"
 
 
 docker-build-push:
-	./docker_build_and_tag.sh -r ghcr.io/flyteorg -a flyte-conference-talks -v pydata-global-2022-${VERSION}
-	./docker_build_and_tag.sh -r ghcr.io/flyteorg -a flyte-conference-talks -v pydata-global-2022-latest
-	docker push ghcr.io/flyteorg/flyte-conference-talks:pydata-global-2022-${VERSION}
-	docker push ghcr.io/flyteorg/flyte-conference-talks:pydata-global-2022-latest
+	bash ./docker_build_and_tag.sh -r ghcr.io/eapolinario -a flyte-conference-talks -v pydata-seattle-2023-${VERSION}
+	# bash ./docker_build_and_tag.sh -r ghcr.io/eapolinario -a flyte-conference-talks -v pydata-seattle-2023-latest
+	# docker push ghcr.io/eapolinario/flyte-conference-talks:pydata-seattle-2023-${VERSION}
+	# docker push ghcr.io/eapolinario/flyte-conference-talks:pydata-seattle-2023-latest
