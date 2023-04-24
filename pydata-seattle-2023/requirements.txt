@@ -1,0 +1,13 @@
+dataclasses_json
+flytekit>=1.1.0
+flytekitplugins-deck-standard
+flytekitplugins-pandera
+flytekitplugins-spark
+ipykernel
+joblib
+modin
+palmerpenguins
+pandas
+pyspark
+scikit-learn
+torch
