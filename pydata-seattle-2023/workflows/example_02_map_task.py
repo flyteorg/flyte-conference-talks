@@ -1,6 +1,7 @@
 """Flyte Intro: Grid search Map Tasks."""
 
 from dataclasses import dataclass
+from functools import partial
 from typing import List, Tuple, NamedTuple
 
 import pandas as pd
@@ -31,10 +32,10 @@ class TrainArgs:
 
 # ⛰ Scaling by provisioning more compute/memory at the task-level
 @task(requests=Resources(cpu="2", mem="1Gi"))
-def train_model(train_args: TrainArgs) -> LogisticRegression:
+def train_model(data: pd.DataFrame, hyperparams: dict) -> LogisticRegression:
     """This is a unary task function for our model to make it mappable"""
-    data: pd.DataFrame = train_args.data.open(pd.DataFrame).all()
-    model = LogisticRegression(max_iter=5000, **train_args.hyperparameters)
+    # data: pd.DataFrame = data.open(pd.DataFrame).all()
+    model = LogisticRegression(max_iter=5000, **hyperparams)
     return model.fit(data[FEATURES], data[TARGET])
 
 
@@ -60,11 +61,10 @@ def tune_model(
     # ⛰ Scaling by splitting work across multiple tasks:
     # Wrapping the `train_model` task in `map_task` allows us to parallelize
     # our grid search.
-    models = map_task(train_model, concurrency=5)(
-        train_args=prepare_train_args(
-            train_data=train_data, hyperparam_grid=hyperparam_grid
-        )
-    )
+    models = map_task(
+        partial(train_model, hyperparams=hyperparam_grid),
+        concurrency=5,
+    )(data=train_data)
     return get_best_model(models=models, val_data=val_data)
 
 
