@@ -32,7 +32,7 @@ class TrainArgs:
 
 # ⛰ Scaling by provisioning more compute/memory at the task-level
 @task(requests=Resources(cpu="2", mem="1Gi"))
-def train_model(data: pd.DataFrame, hyperparams: dict) -> LogisticRegression:
+def train_model(hyperparams: dict, data: pd.DataFrame) -> LogisticRegression:
     """This is a unary task function for our model to make it mappable"""
     # data: pd.DataFrame = data.open(pd.DataFrame).all()
     model = LogisticRegression(max_iter=5000, **hyperparams)
@@ -62,15 +62,20 @@ def tune_model(
     # Wrapping the `train_model` task in `map_task` allows us to parallelize
     # our grid search.
     models = map_task(
-        partial(train_model, hyperparams=hyperparam_grid),
+        partial(train_model, data=train_data),
         concurrency=5,
-    )(data=train_data)
+    )(hyperparams=hyperparam_grid)
     return get_best_model(models=models, val_data=val_data)
 
 
 @workflow
 def tuning_workflow(
-    hyperparam_grid: List[dict],
+    hyperparam_grid: List[dict] = [
+        {"C": 1.0},
+        {"C": 0.1},
+        {"C": 0.01},
+        {"C": 0.001},
+    ],
     val_size: float = 0.2,
     test_size: float = 0.2,
     random_state: int = 42,
