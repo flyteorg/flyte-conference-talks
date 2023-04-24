@@ -88,7 +88,7 @@ training_launchplan = LaunchPlan.create(
     "scheduled_training_workflow",
     training_workflow,
 
-    # run 2 minutes
+    # run every 2 minutes
     schedule=CronSchedule(schedule="*/2 * * * *"),
 
     # use default inputs
