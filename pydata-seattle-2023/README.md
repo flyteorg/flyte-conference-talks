@@ -1,6 +1,6 @@
-# Flyte Tutorial: Pydata Global 2022
+# Flyte Tutorial: Pydata Seattle 2023
 
-This directory contains the workshop materials for [Pydata global 2022](https://pydata.org/global2022/).
+This directory contains the workshop materials for [Pydata Seattle 2023](https://pydata.org/seattle2023/).
 
 ## Production-grade Machine Learning with Flyte
 
@@ -118,14 +118,14 @@ Clone this repo and go to the workshop directory:
 
 ```
 git clone https://github.com/flyteorg/flyte-conference-talks
-cd flyte-conference-talks/pydata-global-2022
+cd flyte-conference-talks/pydata-seattle-2023
 ```
 
 Create a virtual environment
 
 ```
-python -m venv ~/venvs/pydata-global-2022
-source ~/venvs/pydata-global-2022/bin/activate
+python -m venv ~/venvs/pydata-seattle-2023
+source ~/venvs/pydata-seattle-2023/bin/activate
 ```
 
 Install dependencies
@@ -139,13 +139,6 @@ then start a Flyte demo cluster:
 
 ```
 flytectl demo start --source .
-```
-
-Then build the docker image for the tutorial inside the cluster:
-
-```
-export IMAGE=ghcr.io/flyteorg/flyte-conference-talks:pydata-global-2022-latest
-flytectl demo exec -- docker build . --tag $IMAGE
 ```
 
 Update resource attributes:
