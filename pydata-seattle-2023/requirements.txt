@@ -1,8 +1,8 @@
 dataclasses_json
-flytekit>=1.1.0
 flytekitplugins-deck-standard
 flytekitplugins-pandera
 flytekitplugins-spark
+flytekit==1.5.0
 ipykernel
 joblib
 modin
