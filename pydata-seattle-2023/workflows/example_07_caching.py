@@ -4,8 +4,10 @@ from dataclasses import asdict
 from typing import Annotated, List, Tuple
 
 import pandas as pd
+import numpy as np
 from palmerpenguins import load_penguins
 from sklearn.linear_model import SGDClassifier
+from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 
 from flytekit import task, workflow, dynamic, HashMethod, Resources
@@ -56,6 +58,18 @@ def train_model(
     return SGDClassifier(**asdict(hyperparameters)).fit(
         data[FEATURES], data[TARGET]
     )
+
+
+@task
+def get_best_model(
+    models: List[SGDClassifier], val_data: pd.DataFrame
+) -> Tuple[SGDClassifier, float]:
+    scores = [
+        accuracy_score(val_data[TARGET], model.predict(val_data[FEATURES]))
+        for model in models
+    ]
+    best_index = np.array(scores).argmax()
+    return models[best_index], float(scores[best_index])
 
 
 @dynamic
