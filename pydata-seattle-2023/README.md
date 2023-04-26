@@ -91,7 +91,7 @@ In the terminal, clone this repo and go to the workshop directory:
 
 ```
 git clone https://github.com/flyteorg/flyte-conference-talks
-cd flyte-conference-talks/pydata-global-2022
+cd flyte-conference-talks/pydata-seattle-2023
 ```
 
 Install dependencies with

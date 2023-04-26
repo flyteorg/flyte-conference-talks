@@ -11,4 +11,3 @@ pip install --no-cache-dir --user flytekitplugins-pandera
 pip install --no-cache-dir --user flytekitplugins-spark
 pip install --no-cache-dir --user flytekitplugins-ray
 pip install --no-cache-dir --user -r requirements.txt
-pip install --no-cache-dir --user -e .
