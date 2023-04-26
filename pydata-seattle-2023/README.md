@@ -128,12 +128,6 @@ python -m venv ~/venvs/pydata-seattle-2023
 source ~/venvs/pydata-seattle-2023/bin/activate
 ```
 
-Install dependencies
-
-```
-pip install -e .
-```
-
 [Install Flytectl](https://docs.flyte.org/projects/flytectl/en/latest/#installation),
 then start a Flyte demo cluster:
 
@@ -141,8 +135,17 @@ then start a Flyte demo cluster:
 flytectl demo start --source .
 ```
 
-Update resource attributes:
+
+Install local dependencies
+
+```
+make local-sandbox-setup
+```
+
+Finally, update resource attributes:
 
 ```
 flytectl update task-resource-attribute --attrFile cra.yaml
 ```
+
+And you're good to go!
