@@ -129,14 +129,7 @@ source ~/venvs/pydata-seattle-2023/bin/activate
 ```
 
 [Install Flytectl](https://docs.flyte.org/projects/flytectl/en/latest/#installation),
-then start a Flyte demo cluster:
-
-```
-flytectl demo start --source .
-```
-
-
-Install local dependencies
+then run this command to start a Flyte demo cluster and install local dependencies
 
 ```
 make local-sandbox-setup
