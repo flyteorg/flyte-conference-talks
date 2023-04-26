@@ -11,3 +11,4 @@ pandas
 pyspark
 scikit-learn
 torch
+wheel

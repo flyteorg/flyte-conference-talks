@@ -6,6 +6,7 @@ sandbox-setup:
 local-sandbox-setup:
 	flytectl demo start --source .
 	bash local-setup.sh
+	sleep 1
 	flytectl update task-resource-attribute --attrFile cra.yaml
 
 
