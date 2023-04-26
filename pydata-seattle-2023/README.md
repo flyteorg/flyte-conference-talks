@@ -142,10 +142,4 @@ Install local dependencies
 make local-sandbox-setup
 ```
 
-Finally, update resource attributes:
-
-```
-flytectl update task-resource-attribute --attrFile cra.yaml
-```
-
 And you're good to go!
