@@ -1,0 +1,17 @@
+flytekitplugins-deck-standard
+flytekitplugins-pandera
+flytekitplugins-kfpytorch
+flytekit
+joblib
+modin
+palmerpenguins
+torch
+wheel
+datasets
+transformers
+peft
+datasets
+flytekit
+accelerate
+bitsandbytes==0.37.2
+wandb
