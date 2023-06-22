@@ -9,11 +9,13 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from dataclasses_json import dataclass_json
-from flytekit import Resources, kwtypes, task, workflow
+from flytekit import ImageSpec, Resources, kwtypes, task, workflow
 from flytekit.extras.sqlite3.task import SQLite3Config, SQLite3Task
 from flytekit.types.structured import StructuredDataset
 from flytekitplugins.spark import Spark
 from workflows.example_00_intro import FEATURES, TARGET
+
+custom_image = ImageSpec(registry="samhitaalla")
 
 
 @dataclass_json

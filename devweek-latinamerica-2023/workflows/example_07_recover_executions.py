@@ -19,7 +19,7 @@ from workflows.example_05_reproducibility import (
 from workflows.example_06_caching import get_best_model, get_data, split_data
 
 
-@task(cache=True, cache_version="1", retries=3)
+@task(retries=3)
 def train_model(data: pd.DataFrame, hyperparameters: Hyperparameters) -> SGDClassifier:
     """
     🎒 Caching and workflow recovery allows you to recover from a grid search tuning
@@ -60,7 +60,7 @@ def tune_model(
 
 @workflow
 def tuning_workflow(
-    alpha_grid: List[float],
+    alpha_grid: List[float] = [100.0, 10.0, 1.0, 0.1, 0.01, 0.001, 0.0001, 0.00001],
     val_size: float = 0.2,
     test_size: float = 0.2,
     random_state: int = 42,
