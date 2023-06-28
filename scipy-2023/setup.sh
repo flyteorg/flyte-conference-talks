@@ -1,7 +1,7 @@
 #!/bin/sh
 
 pip install --no-cache-dir --user modin
-pip install --no-cache-dir --user pyspark<3.4.0
+pip install --no-cache-dir --user 'pyspark<3.4.0'
 pip install --no-cache-dir --user --index-url https://download.pytorch.org/whl/cpu torch
 pip install --no-cache-dir --user pandas
 pip install --no-cache-dir --user scikit-learn
