@@ -36,7 +36,7 @@ def get_data() -> PenguinDataset:
     penguins = load_penguins()[[TARGET] + FEATURES].dropna()
 
     # 😈 Uncomment the line below to introduce data corruption
-    # penguins = penguins.astype({"bill_length_mm": str})
+    penguins = penguins.astype({"bill_length_mm": str})
 
     return penguins
 
