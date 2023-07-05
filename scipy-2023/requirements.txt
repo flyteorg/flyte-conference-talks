@@ -12,3 +12,4 @@ pyspark<3.4.0
 scikit-learn
 torch
 wheel
+grpcio==1.51.3
