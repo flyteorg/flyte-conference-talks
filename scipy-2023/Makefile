@@ -1,15 +1,13 @@
 # this is a hack, needed because of limited memory on Flyte Sandbox server
-sandbox-setup:
+remote-sandbox-setup:
 	bash setup.sh
 	bash setup.sh
-	sleep 1
 	flytectl update task-resource-attribute --attrFile cra.yaml
 
-local-sandbox-setup:
+sandbox-setup:
 	flytectl demo start --source .
-	bash local-setup.sh
 	sleep 1
-	flytectl update task-resource-attribute --attrFile cra.yaml
+	FLYTECTL_CONFIG=~/.flyte/config-sandbox.yaml flytectl update task-resource-attribute --attrFile cra.yaml
 
 
 VERSION=$(shell git rev-parse HEAD)

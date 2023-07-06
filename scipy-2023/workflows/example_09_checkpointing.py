@@ -3,6 +3,7 @@
 from io import BytesIO
 from dataclasses import asdict
 from random import random
+from typing import Any, Tuple
 
 import joblib
 import pandas as pd
@@ -10,6 +11,7 @@ import pandas as pd
 from sklearn.linear_model import SGDClassifier
 
 from flytekit import task, workflow, current_context
+from flytekit.core.checkpointer import Checkpoint
 from flytekit.exceptions.user import FlyteRecoverableException
 
 from workflows.example_05_pandera_types import CLASSES
@@ -19,6 +21,27 @@ from workflows.example_06_reproducibility import (
     FEATURES,
     TARGET,
 )
+
+FAILURE_RATE = 0.05
+
+
+def get_previous_checkpoint(
+    hyperparameters: Hyperparameters,
+) -> Tuple[Checkpoint, Any]:
+    # try to get previous checkpoint, if it exists
+    try:
+        checkpoint = current_context().checkpoint
+        prev_checkpoint = checkpoint.read()
+    except (NotImplementedError, ValueError):
+        checkpoint, prev_checkpoint = None, None
+
+    # assume that checkpoint consists of a counter of the latest epoch and model
+    if prev_checkpoint:
+        start_epoch, model = joblib.load(BytesIO(prev_checkpoint))
+    else:
+        start_epoch, model = 0, SGDClassifier(**asdict(hyperparameters))
+
+    return checkpoint, (start_epoch, model)
 
 
 @task(retries=10)
@@ -35,25 +58,14 @@ def train_model(
     you don't have to start from scratch.
     """
 
-    # try to get previous checkpoint, if it exists
-    try:
-        checkpoint = current_context().checkpoint
-        prev_checkpoint = checkpoint.read()
-    except (NotImplementedError, ValueError):
-        checkpoint, prev_checkpoint = None, False
-
-    # assume that checkpoint consists of a counter of the latest epoch and model
-    if prev_checkpoint:
-        start_epoch, model = joblib.load(BytesIO(prev_checkpoint))
-    else:
-        start_epoch, model = 0, SGDClassifier(**asdict(hyperparameters))
+    checkpoint, (start_epoch, model) = get_previous_checkpoint(hyperparameters)
 
     for epoch in range(start_epoch, n_epochs):
         print(f"epoch: {epoch}")
 
         # simulate system-level error: per epoch, introduce
         # a chance of failure 5% of the time
-        if random() < 0.05:
+        if random() < FAILURE_RATE:
             raise FlyteRecoverableException(
                 f"🔥 Something went wrong at epoch {epoch}! 🔥"
             )

@@ -10,7 +10,7 @@ from palmerpenguins import load_penguins
 from sklearn.model_selection import train_test_split
 
 import flytekitplugins.pandera
-from flytekit import task, workflow, Resources
+from flytekit import task, workflow
 
 from workflows.example_00_intro import (
     FEATURES,

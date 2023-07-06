@@ -17,6 +17,7 @@ from workflows.example_00_intro import (
     evaluate,
     FEATURES,
     TARGET,
+    Hyperparameters,
 )
 
 
@@ -33,7 +34,7 @@ TuningResults = NamedTuple(
 # ⛰ Scaling by splitting work across multiple tasks
 @dynamic
 def tune_model(
-    hyperparam_grid: List[dict],
+    hyperparam_grid: List[Hyperparameters],
     tune_data: pd.DataFrame,
     val_size: float,
     random_state: int,
@@ -71,7 +72,7 @@ def get_best_model(
 
 @workflow
 def tuning_workflow(
-    hyperparam_grid: List[dict],
+    hyperparam_grid: List[Hyperparameters],
     val_size: float = 0.2,
     test_size: float = 0.2,
     random_state: int = 42,
@@ -101,9 +102,9 @@ def tuning_workflow(
 
 if __name__ == "__main__":
     hyperparam_grid = [
-        {"C": 1.0, "max_iter": 5000},
-        {"C": 0.1, "max_iter": 5000},
-        {"C": 0.01, "max_iter": 5000},
-        {"C": 0.001, "max_iter": 5000},
+        Hyperparameters(C=1.0, max_iter=5000),
+        Hyperparameters(C=0.1, max_iter=5000),
+        Hyperparameters(C=0.01, max_iter=5000),
+        Hyperparameters(C=0.001, max_iter=5000),
     ]
     print(f"{tuning_workflow(hyperparam_grid=hyperparam_grid)}")

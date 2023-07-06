@@ -1,5 +1,6 @@
 """Flyte Intro: Type and Task Plugin Examples."""
 
+import os
 from dataclasses import dataclass
 from typing import Annotated
 
@@ -9,12 +10,13 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from dataclasses_json import dataclass_json
+from torch import distributed as dist
 
 from flytekit.types.structured import StructuredDataset
 from flytekit import kwtypes, task, workflow, Resources
 from flytekit.extras.sqlite3.task import SQLite3Config, SQLite3Task
 from flytekitplugins.spark import Spark
-
+from flytekitplugins.kfpytorch import Elastic
 
 from workflows.example_00_intro import FEATURES, TARGET
 
@@ -26,6 +28,7 @@ class Hyperparameters:
     hidden_dim: int
     out_dim: int
     learning_rate: float
+    backend: str = dist.Backend.GLOO
 
 
 PenquinsDataset = Annotated[
@@ -106,10 +109,10 @@ def preprocess_data_pyspark(
     ...  # pyspark code
 
 
-RESOURCES = Resources(cpu="2", mem="1Gi")
-
-
-@task(requests=RESOURCES, limits=RESOURCES)
+@task(
+    task_config=Elastic(nnodes=1, nproc_per_node=1, start_method="fork"),
+    requests=Resources(cpu="2", mem="1Gi"),
+)
 def train_model(
     data: PenquinsDataset, n_epochs: int, hyperparameters: Hyperparameters
 ) -> nn.Sequential:
@@ -124,6 +127,14 @@ def train_model(
     - Pandera type
     - ONNX type
     """
+    use_cuda = torch.cuda.is_available()
+    device = torch.device("cuda" if use_cuda else "cpu")
+    world_size = int(os.environ.get("WORLD_SIZE", 1))
+
+    if dist.is_available() and world_size > 1:
+        print("Using distributed PyTorch with {} backend".format(hyperparameters.backend))
+        dist.init_process_group(backend=hyperparameters.backend)
+
     # extract features and targets
     data = data.open(pd.DataFrame).all()
     features = torch.from_numpy(data[FEATURES].values).float()
@@ -135,7 +146,16 @@ def train_model(
         nn.ReLU(),
         nn.Linear(hyperparameters.hidden_dim, hyperparameters.out_dim),
         nn.Softmax(dim=1),
-    )
+    ).to(device)
+
+    if dist.is_available() and dist.is_initialized():
+        Distributor = (
+            nn.parallel.DistributedDataParallel
+            if use_cuda
+            else nn.parallel.DistributedDataParallelCPU
+        )
+        model = Distributor(model)
+
     opt = torch.optim.Adam(
         model.parameters(), lr=hyperparameters.learning_rate
     )

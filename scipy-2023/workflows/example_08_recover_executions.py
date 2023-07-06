@@ -11,15 +11,19 @@ from sklearn.linear_model import SGDClassifier
 from flytekit import task, workflow, dynamic
 from flytekit.exceptions.user import FlyteRecoverableException
 
+from workflows.example_07_caching import get_best_model
 from workflows.example_06_reproducibility import (
     Hyperparameters,
     FEATURES,
     TARGET,
 )
-from workflows.example_07_caching import get_best_model, get_data, split_data
+from workflows.example_07_caching import get_data, split_data
 
 
-@task(cache=True, cache_version="1", retries=3)
+FAILURE_RATE = 0.25
+
+
+@task(cache=True, cache_version="2", retries=3)
 def train_model(
     data: pd.DataFrame, hyperparameters: Hyperparameters
 ) -> SGDClassifier:
@@ -34,7 +38,7 @@ def train_model(
 
     # simulate system-level error: per trail, introduce
     # a chance of failure 25% of the time
-    if random() < 0.25:
+    if random() < FAILURE_RATE:
         raise FlyteRecoverableException(
             f"🔥 Something went wrong with hyperparameters {hyperparameters}! 🔥"
         )

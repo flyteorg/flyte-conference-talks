@@ -69,70 +69,89 @@ pipeline auditability.
 - **Extending Flyte Decks**: Write your own Flyte Deck visualizations.
 
 
+## Prerequisites
+
+> ⚠️ NOTE: Windows users need to have [WSL installed](https://docs.microsoft.com/en-us/windows/wsl/install-win10) in order to run this workshop.
+
+Install [Docker Desktop](https://docs.docker.com/get-docker/) and make sure the
+Docker daemon is running.
+
+Install `flytectl`:
+
+```bash
+# Homebrew (MacOS)
+brew install flyteorg/homebrew-tap/flytectl
+
+# Or Curl
+curl -sL https://ctl.flyte.org/install | sudo bash -s -- -b /usr/local/bin
+```
+
 ## Setup
-
-Follow the **Flyte Sandbox** instructions to use the fully-managed prototyping
-environment hosted by [Union.ai](https://www.union.ai/), or the **Local**
-instructions if you want to run a Flyte cluster on your local machine.
-
-### Flyte Sandbox
-
-Go to https://sandbox.union.ai and create an account via Github or Google. Then,
-click **Start Sandbox**. This will take 1-2 minutes to launch.
-
-<img src="static/flyte_sandbox_start.png" alt="flyte sandbox start" width="600"/>
-
-
-When the sandbox is ready, click **Code Editor**, which will take you to a VSCode IDE.
-
-<img src="static/flyte_sandbox_ready.png" alt="flyte sandbox ready" width="600"/>
-
-In the terminal, clone this repo and go to the workshop directory:
-
-```
-git clone https://github.com/flyteorg/flyte-conference-talks
-cd flyte-conference-talks/scipy-2023
-```
-
-Install dependencies with
-
-```
-make sandbox-setup
-```
-
-To make sure everything's working, run
-
-```
-python workflows/example_00_intro.py
-```
-
-Expected output:
-
-```
-DefaultNamedTupleOutput(o0=LogisticRegression(C=0.1, max_iter=5000.0), o1=0.989010989010989, o2=1.0)
-```
-
-### Local
 
 Clone this repo and go to the workshop directory:
 
-```
+```bash
 git clone https://github.com/flyteorg/flyte-conference-talks
 cd flyte-conference-talks/scipy-2023
 ```
 
-Create a virtual environment
+Create a virtual environment:
 
-```
+```bash
 python -m venv ~/venvs/scipy-2023
 source ~/venvs/scipy-2023/bin/activate
 ```
 
-[Install Flytectl](https://docs.flyte.org/projects/flytectl/en/latest/#installation),
-then run this command to start a Flyte demo cluster and install local dependencies
+Install dependencies:
 
-```
-make local-sandbox-setup
+```bash
+pip install -r requirements.txt jupyter
 ```
 
-And you're good to go!
+Test the virtual environment with:
+
+```bash
+pyflyte run \
+    workflows/example_00_intro.py training_workflow \
+    --hyperparameters '{"C": 0.01}'
+```
+
+Start the local Flyte sandbox:
+
+```bash
+flytectl demo start --source .
+FLYTECTL_CONFIG=~/.flyte/config-sandbox.yaml
+
+# update task resources
+flytectl update task-resource-attribute --attrFile cra.yaml
+```
+
+Test the Flyte sandbox with:
+
+```bash
+pyflyte run --remote \
+    --image ghcr.io/flyteorg/flyte-conference-talks:scipy-2023-latest \
+    workflows/example_00_intro.py training_workflow \
+    --hyperparameters '{"C": 0.01}'
+```
+
+
+## Tests
+
+Install dev dependencies:
+
+```bash
+pip install pytest pytest-xdist
+```
+
+Run unit tests:
+
+```bash
+pytest tests/unit
+```
+
+Run end-to-end tests:
+
+```bash
+pytest tests/end_to_end -n auto
+```
