@@ -55,6 +55,7 @@ get_data = SQLite3Task(
     task_config=SQLite3Config(
         uri="https://datasette-seaborn-demo.datasette.io/penguins.db"
     ),
+    container_image="ghcr.io/flyteorg/flyte-conference-talks:scipy-2023-ccfab5b3da86323f07a643ab576d0ad3ed37e3ea",
 )
 
 # Other examples of this type of plugin are:
@@ -109,9 +110,17 @@ def preprocess_data_pyspark(
     ...  # pyspark code
 
 
+if int(os.environ.get("USE_ELASTIC", 0)):
+    training_config = Elastic(nnodes=1)
+    training_resources = Resources(cpu="2", mem="1Gi", gpu="1")
+else:
+    training_config = None
+    training_resources = Resources(cpu="2", mem="1Gi")
+
+
 @task(
-    task_config=Elastic(nnodes=1, nproc_per_node=1, start_method="fork"),
-    requests=Resources(cpu="2", mem="1Gi"),
+    task_config=training_config,
+    requests=training_resources,
 )
 def train_model(
     data: PenquinsDataset, n_epochs: int, hyperparameters: Hyperparameters
