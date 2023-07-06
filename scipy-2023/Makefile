@@ -12,5 +12,5 @@ sandbox-setup:
 
 VERSION=$(shell git rev-parse HEAD)
 docker-build-push:
-	bash ./docker_build_and_tag.sh -r ghcr.io/flyteorg -a flyte-conference-talks -v scipy-2023-${VERSION}
-	bash ./docker_build_and_tag.sh -r ghcr.io/flyteorg -a flyte-conference-talks -v scipy-2023-latest
+	bash ./docker_build_push.sh -r ghcr.io/flyteorg -a flyte-conference-talks -v scipy-2023-${VERSION}
+	bash ./docker_build_push.sh -r ghcr.io/flyteorg -a flyte-conference-talks -v scipy-2023-latest

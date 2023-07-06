@@ -144,13 +144,23 @@ Install dev dependencies:
 pip install pytest pytest-xdist
 ```
 
-Run unit tests:
+### Unit tests:
 
 ```bash
 pytest tests/unit
 ```
 
-Run end-to-end tests:
+### End-to-end tests:
+
+First register all the workflows:
+
+```bash
+pyflyte register \
+    --image ghcr.io/flyteorg/flyte-conference-talks:scipy-2023-latest \
+    workflows
+```
+
+Then run the end-to-end pytest suite:
 
 ```bash
 pytest tests/end_to_end -n auto

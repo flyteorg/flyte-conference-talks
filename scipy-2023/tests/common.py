@@ -1,6 +1,6 @@
 """Common testing utilities"""
 
-from typing import Any, Callable, Dict, NamedTuple, Tuple, Type
+from typing import Any, Dict, NamedTuple, Tuple, Type
 
 import pandas as pd
 import torch.nn as nn

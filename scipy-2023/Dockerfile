@@ -7,7 +7,7 @@ ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 ENV PYTHONPATH /root
 
-RUN apt-get update && apt-get install -y build-essential
+RUN apt-get update && apt-get install -y git build-essential
 
 ENV VENV /opt/venv
 
@@ -18,6 +18,7 @@ ENV PATH="${VENV}/bin:$PATH"
 # Install Python dependencies
 COPY ./requirements.txt /root
 RUN pip install -r /root/requirements.txt
+RUN pip install git+https://github.com/flyteorg/flytekit@e7afdab8badc6a27e8bfdfd4aac0de455cacd960
 
 # Copy the code
 COPY . /root

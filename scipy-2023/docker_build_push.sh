@@ -36,11 +36,11 @@ TAG=${APP_NAME}:${VERSION}
 if [ -z "${REGISTRY}" ]; then
   echo "No registry set, creating tag ${TAG}"
 else
- TAG="${REGISTRY}/${TAG}"
- echo "Registry set: creating tag ${TAG}"
+  TAG="${REGISTRY}/${TAG}"
+  echo "Registry set: creating tag ${TAG}"
 fi
 
 # Should be run in the folder that has Dockerfile
-docker buildx build --push --tag ${TAG} --platform=linux/amd64,linux/arm64 .
+docker build --push --tag ${TAG} .
 
 echo "Docker image built with tag ${TAG}. You can use this image to run pyflyte package."

@@ -24,13 +24,13 @@ logger = logging.getLogger(__name__)
 SUCCEED_STATUS = 4
 
 CONFIG_PATH = os.environ.get(
-    "UCTL_CONFIG",
-    str(Path.home() / ".uctl" / "config.yaml")
+    "FLYTECTL_CONFIG",
+    str(Path.home() / ".flyte" / "config-sandbox.yaml")
 )
 
 remote = FlyteRemote(
     config=Config.auto(CONFIG_PATH),
-    default_project="onboarding",
+    default_project="flytesnacks",
     default_domain="development",
 )
 

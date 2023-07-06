@@ -4,7 +4,7 @@ flytekitplugins-kfpytorch
 flytekitplugins-pandera
 flytekitplugins-spark
 flytekitplugins-whylogs
-flytekit>=1.7.0
+flytekit==1.7.0
 grpcio==1.51.3
 ipykernel
 joblib
