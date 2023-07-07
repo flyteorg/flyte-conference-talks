@@ -65,12 +65,12 @@ pipeline auditability.
 
 > ⏱️ 15 minute break
 
-| 🔎 Testing, CI/CD, Extending Flyte [45 minutes] |
-| --- |
-| **Writing Unit Tests**: Test Flyte tasks and workflows in isolation |
-| **Writing Integration Tests**: Test Flyte workflows on a local cluster |
-| **Using Github Actions**: Use github actions to automate testing |
-| **Extending Flyte**: Extend Flyte with decorators, type plugins, flyte deck extensions, and task plugins |
+| 🔎 Testing, CI/CD, Extending Flyte [45 minutes] | |
+| --- | --- |
+| **Writing Unit Tests** | Test Flyte tasks and workflows in isolation |
+| **Writing Integration Tests** | Test Flyte workflows on a local cluster |
+| **Using Github Actions** | Use github actions to automate testing |
+| **Extending Flyte** | Extend Flyte with decorators, type plugins, flyte deck extensions, and task plugins |
 
 > 🗣️ 15 minute Q&A
 
@@ -126,7 +126,7 @@ pyflyte run \
 
 ### Start a local Flyte sandbox:
 
-> ℹ️ **Note**: Before you start the local cluster, make sure that you allocate a minimum of 4 CPUs and 3 GB of memory in your Docker daemon. If you’re using the **Docker Desktop** application, you can do this easily by going to:
+> ℹ **Note**: Before you start the local cluster, make sure that you allocate a minimum of 4 CPUs and 3 GB of memory in your Docker daemon. If you’re using the **Docker Desktop** application, you can do this easily by going to:
 >
 > `Settings > Resources > Advanced`
 >
@@ -141,7 +141,7 @@ export FLYTECTL_CONFIG=~/.flyte/config-sandbox.yaml
 flytectl update task-resource-attribute --attrFile cra.yaml
 ```
 
-> ℹ️ **Note**: Go to the [Troubleshooting](#troubleshooting) section if you're
+> ℹ **Note**: Go to the [Troubleshooting](#troubleshooting) section if you're
 > having trouble getting the sandbox to start.
 
 Test the Flyte sandbox with:
@@ -186,7 +186,7 @@ pytest tests/end_to_end -n auto
 
 ## Troubleshooting
 
-### Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?.
+### `Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?.`
 
 You may need to allow the default Docker socket to be used by third-party clients.
 Enable this by going to the **Docker Desktop** application and navigating to:
