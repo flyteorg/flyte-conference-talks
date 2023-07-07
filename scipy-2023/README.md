@@ -105,7 +105,7 @@ source ~/venvs/scipy-2023/bin/activate
 Install dependencies:
 
 ```bash
-pip install -r requirements.txt jupyter
+pip install -r requirements.txt jupyter ipdb
 ```
 
 Test the virtual environment with:
@@ -129,8 +129,10 @@ flytectl update task-resource-attribute --attrFile cra.yaml
 Test the Flyte sandbox with:
 
 ```bash
+export IMAGE=ghcr.io/flyteorg/flyte-conference-talks:scipy-2023-ccfab5b3da86323f07a643ab576d0ad3ed37e3ea
+
 pyflyte run --remote \
-    --image ghcr.io/flyteorg/flyte-conference-talks:scipy-2023-latest \
+    --image $IMAGE \
     workflows/example_00_intro.py training_workflow \
     --hyperparameters '{"C": 0.01}'
 ```
@@ -155,9 +157,7 @@ pytest tests/unit
 First register all the workflows:
 
 ```bash
-pyflyte register \
-    --image ghcr.io/flyteorg/flyte-conference-talks:scipy-2023-latest \
-    workflows
+pyflyte register --image $IMAGE workflows
 ```
 
 Then run the end-to-end pytest suite:
