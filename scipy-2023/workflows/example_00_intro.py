@@ -38,7 +38,7 @@ FEATURES = [
 @dataclass
 class Hyperparameters:
     C: float
-    max_iter: Optional[int]
+    max_iter: Optional[int] = 2500
 
 
 @task

@@ -4,15 +4,13 @@ from flytekit.remote import FlyteRemote, FlyteWorkflowExecution
 
 
 def get_remote(local=None, config_file=None):
+    if local is None and config_file is None:
+        config = Config.for_sandbox()
+    else:
+        config = Config.auto(config_file=None if local else config_file)
     return FlyteRemote(
-        config=Config.auto(
-            config_file=(
-                None if local
-                else config_file if config_file is not None
-                else str(Path.home() / ".uctl" / "config.yaml")
-            )
-        ),
-        default_project="onboarding",
+        config=config,
+        default_project="flytesnacks",
         default_domain="development",
     )
 
