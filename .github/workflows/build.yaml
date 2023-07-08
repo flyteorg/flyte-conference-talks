@@ -55,8 +55,8 @@ jobs:
       if: ${{ matrix.test-dir == 'integration' }}
       run: |
         flytectl demo start
-        export FLYTECTL_CONFIG=~/.flyte/config-sandbox.yaml
-        flytectl update task-resource-attribute --attrFile cra.yaml
+        flytectl --config ~/.flyte/config-sandbox.yaml \
+          update task-resource-attribute --attrFile cra.yaml
     - name: Pytest
       run: |
         cd ${{ matrix.workshop-dir }}
