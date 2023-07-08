@@ -183,7 +183,7 @@ pyflyte register --image $IMAGE workflows
 Then run the end-to-end pytest suite:
 
 ```bash
-pytest tests/end_to_end -n auto
+pytest tests/integration -n auto
 ```
 
 ## Troubleshooting

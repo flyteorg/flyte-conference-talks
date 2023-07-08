@@ -1,0 +1,58 @@
+name: Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        test-dir: ["unit", "integration"]
+        workshop-dir: ["scipy-2023"]
+        python-version: ["3.9"]
+        # python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
+
+    env:
+      AWS_ACCESS_KEY_ID: minio
+      AWS_SECRET_ACCESS_KEY: miniostorage
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Cache pip
+      uses: actions/cache@v2
+      with:
+        # This path is specific to Ubuntu
+        path: ~/.cache/pip
+        # Look to see if there is a cache hit for the corresponding requirements files
+        key: ${{ format('{0}-pip-{1}', runner.os, hashFiles('requirements.txt')) }}
+    - name: Install dependencies
+      run: |
+        cd ${{ matrix.workshop-dir }}
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest pytest-xdist
+    - name: Pip info
+      run: python -m pip list
+    - name: Install FlyteCTL
+      if: ${{ matrix.test-dir == 'integration' }}
+      uses: unionai-oss/flytectl-setup-action@master
+    - name: Setup Flyte Sandbox
+      if: ${{ matrix.test-dir == 'integration' }}
+      run: |
+        flytectl demo start
+        export FLYTECTL_CONFIG=~/.flyte/config-sandbox.yaml
+        flytectl update task-resource-attribute --attrFile cra.yaml
+    - name: Pytest
+      run: |
+        pytest tests/${{ matrix.test-dir }}
