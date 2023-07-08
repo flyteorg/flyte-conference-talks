@@ -113,7 +113,8 @@ source ~/venvs/scipy-2023/bin/activate
 Install dependencies:
 
 ```bash
-pip install -r requirements.txt jupyter ipdb
+pip install -r requirements.txt
+pip install jupyter ipdb
 ```
 
 Test the virtual environment with:
@@ -162,6 +163,7 @@ Install dev dependencies:
 
 ```bash
 pip install pytest pytest-xdist
+source ~/venvs/scipy-2023/bin/activate
 ```
 
 ### Unit tests:
