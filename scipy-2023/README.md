@@ -148,7 +148,7 @@ flytectl update task-resource-attribute --attrFile cra.yaml
 Test the Flyte sandbox with:
 
 ```bash
-export IMAGE=ghcr.io/flyteorg/flyte-conference-talks:scipy-2023-ccfab5b3da86323f07a643ab576d0ad3ed37e3ea
+export IMAGE=ghcr.io/flyteorg/flyte-conference-talks:scipy-2023-latest
 
 pyflyte run --remote \
     --image $IMAGE \
