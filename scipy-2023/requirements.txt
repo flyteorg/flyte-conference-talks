@@ -13,6 +13,6 @@ palmerpenguins
 pandas
 pyspark<3.4.0
 scikit-learn
-torch
+torch --index-url https://download.pytorch.org/whl/cpu
 wheel
 whylogs
