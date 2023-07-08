@@ -67,6 +67,4 @@ jobs:
         pyflyte register --image ghcr.io/flyteorg/flyte-conference-talks:scipy-2023-latest workflows
 
     - name: Integration Tests
-      env:
-        FLYTECTL_CONFIG: /home/runner/.flyte/config-sandbox.yaml
-      run: pytest tests/integration -n auto
+      run: pytest tests/integration

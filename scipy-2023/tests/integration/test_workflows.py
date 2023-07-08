@@ -23,13 +23,14 @@ logger = logging.getLogger(__name__)
 
 SUCCEED_STATUS = 4
 
-CONFIG_PATH = os.environ.get(
-    "FLYTECTL_CONFIG",
-    str(Path.home() / ".flyte" / "config-sandbox.yaml")
-)
+CONFIG_PATH = os.environ.get("FLYTECTL_CONFIG", None)
+if CONFIG_PATH is None:
+    config = Config.for_sandbox()
+else:
+    config = Config.auto(CONFIG_PATH)
 
 remote = FlyteRemote(
-    config=Config.auto(CONFIG_PATH),
+    config=config,
     default_project="flytesnacks",
     default_domain="development",
 )
