@@ -63,6 +63,7 @@ jobs:
       run: |
         flytectl demo start
         cat /home/runner/.flyte/config-sandbox.yaml
+        sleep 3
         flytectl --config /home/runner/.flyte/config-sandbox.yaml update task-resource-attribute --attrFile cra.yaml
 
     - name: Integration Tests
