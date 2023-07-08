@@ -19,9 +19,8 @@ jobs:
       matrix:
         test-dir: ["unit", "integration"]
         workshop-dir: ["scipy-2023"]
-        python-version: ["3.9"]
-        # python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
-        # os: ["ubuntu-latest", "macos-latest", "windows-latest"]
+        python-version: ["3.8", "3.9", "3.10", "3.11"]
+        os: ["ubuntu-latest", "macos-latest", "windows-latest"]
 
 
     env:
@@ -30,10 +29,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
+
     - name: Cache pip
       uses: actions/cache@v2
       with:
@@ -41,22 +42,26 @@ jobs:
         path: ~/.cache/pip
         # Look to see if there is a cache hit for the corresponding requirements files
         key: ${{ format('{0}-pip-{1}', runner.os, hashFiles('requirements.txt')) }}
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r ${{ matrix.workshop-dir }}/requirements.txt
         pip install pytest pytest-xdist
+
     - name: Pip info
       run: python -m pip list
+
     - name: Install FlyteCTL
       if: ${{ matrix.test-dir == 'integration' }}
       uses: unionai-oss/flytectl-setup-action@master
+
     - name: Setup Flyte Sandbox
       if: ${{ matrix.test-dir == 'integration' }}
       run: |
         flytectl demo start
-        flytectl --config ~/.flyte/config-sandbox.yaml \
-          update task-resource-attribute --attrFile cra.yaml
+        flytectl --config ~/.flyte/config-sandbox.yaml update task-resource-attribute --attrFile cra.yaml
+
     - name: Pytest
       run: |
         cd ${{ matrix.workshop-dir }}
