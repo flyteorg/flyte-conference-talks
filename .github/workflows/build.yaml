@@ -13,6 +13,7 @@ jobs:
     defaults:
       run:
         shell: pwsh
+        working-directory: ${{ matrix.workshop-dir }}
 
     strategy:
       fail-fast: false
@@ -46,7 +47,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r ${{ matrix.workshop-dir }}/requirements.txt
+        pip install -r requirements.txt
         pip install pytest pytest-xdist
 
     - name: Pip info
@@ -56,9 +57,7 @@ jobs:
       uses: unionai-oss/flytectl-setup-action@master
 
     - name: Unit Tests
-      run: |
-        cd ${{ matrix.workshop-dir }}
-        pytest tests/unit
+      run: pytest tests/unit
 
     - name: Setup Flyte Sandbox
       run: |
@@ -66,6 +65,4 @@ jobs:
         flytectl --config ~/.flyte/config-sandbox.yaml update task-resource-attribute --attrFile cra.yaml
 
     - name: Integration Tests
-      run: |
-        cd ${{ matrix.workshop-dir }}
-        pytest tests/integration
+      run: pytest tests/integration
