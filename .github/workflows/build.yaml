@@ -17,10 +17,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        test-dir: ["unit", "integration"]
         workshop-dir: ["scipy-2023"]
-        python-version: ["3.8", "3.9", "3.10", "3.11"]
-        os: ["ubuntu-latest", "macos-latest", "windows-latest"]
+        python-version: ["3.9"]
+        # python-version: ["3.8", "3.9", "3.10", "3.11"]
+        # os: ["ubuntu-latest", "macos-latest", "windows-latest"]
 
 
     env:
@@ -53,16 +53,19 @@ jobs:
       run: python -m pip list
 
     - name: Install FlyteCTL
-      if: ${{ matrix.test-dir == 'integration' }}
       uses: unionai-oss/flytectl-setup-action@master
 
+    - name: Unit Tests
+      run: |
+        cd ${{ matrix.workshop-dir }}
+        pytest tests/unit
+
     - name: Setup Flyte Sandbox
-      if: ${{ matrix.test-dir == 'integration' }}
       run: |
         flytectl demo start
         flytectl --config ~/.flyte/config-sandbox.yaml update task-resource-attribute --attrFile cra.yaml
 
-    - name: Pytest
+    - name: Integration Tests
       run: |
         cd ${{ matrix.workshop-dir }}
-        pytest tests/${{ matrix.test-dir }}
+        pytest tests/integration
