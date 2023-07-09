@@ -29,6 +29,12 @@ if CONFIG_PATH is None:
 else:
     config = Config.auto(CONFIG_PATH)
 
+workflow_cases = (
+    WORKFLOW_CASES[:1]
+    if int(os.environ.get("CI", 0))
+    else WORKFLOW_CASES
+)
+
 remote = FlyteRemote(
     config=config,
     default_project="flytesnacks",
@@ -36,7 +42,7 @@ remote = FlyteRemote(
 )
 
 
-@pytest.mark.parametrize("wf_case", WORKFLOW_CASES)
+@pytest.mark.parametrize("wf_case", workflow_cases)
 def test_workflow_remote(wf_case: WorkflowCase):
     for _ in range(60):
         # bypass issue where multiple remote objects are authenticating at the
