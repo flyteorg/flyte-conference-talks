@@ -62,9 +62,26 @@ jobs:
     - name: Setup Flyte Sandbox
       run: |
         flytectl demo start
-        sleep 3
-        flytectl --config /home/runner/.flyte/config-sandbox.yaml update task-resource-attribute --attrFile cra.yaml
-        pyflyte register --image ghcr.io/flyteorg/flyte-conference-talks:scipy-2023-ci workflows
+
+    - name: Update Resources
+      uses: nick-fields/retry@v2
+      with:
+        timeout_minutes: 10
+        retry_wait_seconds: 15
+        max_attempts: 10
+        shell: pwsh
+        command: flytectl --config /home/runner/.flyte/config-sandbox.yaml update task-resource-attribute --attrFile cra.yaml
+
+    - name: Setup Flyte Sandbox
+      env:
+        FLYTECTL_CONFIG: /home/runner/.flyte/config-sandbox.yaml
+      uses: nick-fields/retry@v2
+      with:
+        timeout_minutes: 10
+        retry_wait_seconds: 15
+        max_attempts: 10
+        shell: pwsh
+        command: pyflyte register --image ghcr.io/flyteorg/flyte-conference-talks:scipy-2023-ci workflows
 
     # - name: Integration Tests
     #   env:

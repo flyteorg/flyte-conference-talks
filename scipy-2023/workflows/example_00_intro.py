@@ -17,7 +17,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 
-from flytekit import task, workflow, LaunchPlan, CronSchedule, ImageSpec
+from flytekit import task, workflow, LaunchPlan, CronSchedule
 
 try:
     from workflows import logger
