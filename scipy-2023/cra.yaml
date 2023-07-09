@@ -3,6 +3,8 @@ domain: development
 defaults:
   cpu: "1"
   memory: "1Gi"
+  ephemeral_storage: "6Gi"
 limits:
   cpu: "4"
   memory: "8Gi"
+  ephemeral_storage: "6Gi"
