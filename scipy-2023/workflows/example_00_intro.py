@@ -17,7 +17,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 
-from flytekit import task, workflow, LaunchPlan, CronSchedule
+from flytekit import task, workflow, LaunchPlan, CronSchedule, ImageSpec
 
 try:
     from workflows import logger
@@ -32,7 +32,6 @@ FEATURES = [
     "flipper_length_mm",
     "body_mass_g",
 ]
-
 
 @dataclass_json
 @dataclass

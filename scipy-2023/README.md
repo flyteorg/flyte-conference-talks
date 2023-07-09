@@ -113,7 +113,7 @@ source ~/venvs/scipy-2023/bin/activate
 Install dependencies:
 
 ```bash
-pip install -r requirements.txt
+pip install -r requirements.txt flytekitplugins-envd
 pip install jupyter ipdb
 ```
 
@@ -151,7 +151,7 @@ Test the Flyte sandbox with:
 export IMAGE=ghcr.io/flyteorg/flyte-conference-talks:scipy-2023-latest
 
 pyflyte run --remote \
-    --image $IMAGE \
+    --image $IMAGE
     workflows/example_00_intro.py training_workflow \
     --hyperparameters '{"C": 0.01}'
 ```
