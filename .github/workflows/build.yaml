@@ -65,6 +65,9 @@ jobs:
         sleep 3
         flytectl --config /home/runner/.flyte/config-sandbox.yaml update task-resource-attribute --attrFile cra.yaml
         pyflyte register --image ghcr.io/flyteorg/flyte-conference-talks:scipy-2023-latest workflows
+     
+    - name: Last Test
+      run: echo 'done'
 
     # - name: Integration Tests
     #   run: pytest tests/integration
