@@ -61,7 +61,7 @@ jobs:
     - name: Setup Flyte Sandbox
       run: |
         flytectl demo start
-        sleep 3
+        sleep 5
         flytectl --config ~/.flyte/config-sandbox.yaml update task-resource-attribute --attrFile cra.yaml
 
     - name: Register workflows
