@@ -1,7 +1,7 @@
 """Recoverability: Caching for compute efficiency."""
 
 from dataclasses import asdict
-from typing import Annotated, List, Tuple
+from typing import List, Tuple
 
 import numpy as np
 import pandas as pd
@@ -11,6 +11,11 @@ from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 
 from flytekit import task, workflow, dynamic, HashMethod, Resources
+
+try:
+    from typing import Annotated
+except ImportError:
+    from typing_extensions import Annotated
 
 
 from workflows.example_06_reproducibility import (

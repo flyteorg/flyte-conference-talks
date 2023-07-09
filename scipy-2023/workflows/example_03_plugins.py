@@ -2,7 +2,6 @@
 
 import os
 from dataclasses import dataclass
-from typing import Annotated
 
 import pandas as pd
 import pyspark.sql
@@ -19,6 +18,11 @@ from flytekitplugins.spark import Spark
 from flytekitplugins.kfpytorch import Elastic
 
 from workflows.example_00_intro import FEATURES, TARGET
+
+try:
+    from typing import Annotated
+except ImportError:
+    from typing_extensions import Annotated
 
 
 @dataclass_json
