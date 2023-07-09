@@ -23,7 +23,6 @@ jobs:
         # python-version: ["3.8", "3.9", "3.10", "3.11"]
         # os: ["ubuntu-latest", "macos-latest", "windows-latest"]
 
-
     env:
       AWS_ACCESS_KEY_ID: minio
       AWS_SECRET_ACCESS_KEY: miniostorage
@@ -63,8 +62,8 @@ jobs:
       run: |
         flytectl demo start
         sleep 3
-        flytectl --config /home/runner/.flyte/config-sandbox.yaml update task-resource-attribute --attrFile cra.yaml
+        flytectl --config ~/.flyte/config-sandbox.yaml update task-resource-attribute --attrFile cra.yaml
         pyflyte register --image ghcr.io/flyteorg/flyte-conference-talks:scipy-2023-latest workflows
 
     - name: Integration Tests
-      run: pytest tests/integration
+      run: pytest -v -v -v -s tests/integration
