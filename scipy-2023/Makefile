@@ -6,3 +6,6 @@ docker-build:
 
 ci-docker-build:
 	docker build --push . -f Dockerfile.ci -t ghcr.io/flyteorg/flyte-conference-talks:scipy-2023-ci
+
+sandbox-docker-build:
+	docker build --push . -f Dockerfile.ci -t localhost:30000/flyte-conference-talks:scipy-2023-ci
