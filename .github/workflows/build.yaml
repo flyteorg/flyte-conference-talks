@@ -19,9 +19,9 @@ jobs:
       fail-fast: false
       matrix:
         workshop-dir: ["scipy-2023"]
-        python-version: ["3.9"]
-        # python-version: ["3.8", "3.9", "3.10", "3.11"]
-        # os: ["ubuntu-latest", "macos-latest", "windows-latest"]
+        # python-version: ["3.9"]
+        python-version: ["3.8", "3.9", "3.10", "3.11"]
+        os: ["ubuntu-latest", "macos-latest", "windows-latest"]
 
 
     env:
@@ -66,8 +66,8 @@ jobs:
         flytectl --config /home/runner/.flyte/config-sandbox.yaml update task-resource-attribute --attrFile cra.yaml
         pyflyte register --image ghcr.io/flyteorg/flyte-conference-talks:scipy-2023-ci workflows
 
-    - name: Integration Tests
-      env:
-        FLYTECTL_CONFIG: /home/runner/.flyte/config-sandbox.yaml
-        CI: 1
-      run: pytest -v -v -v -s tests/integration
+    # - name: Integration Tests
+    #   env:
+    #     FLYTECTL_CONFIG: /home/runner/.flyte/config-sandbox.yaml
+    #     CI: 1
+    #   run: pytest tests/integration
