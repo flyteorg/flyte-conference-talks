@@ -4,5 +4,5 @@ docker-build:
 	docker build --push --tag ghcr.io/flyteorg/flyte-conference-talks:scipy-2023-${VERSION} .
 	docker build --push --tag ghcr.io/flyteorg/flyte-conference-talks:scipy-2023-latest .
 
-sandbox-docker-build:
-	docker build --push . -f Dockerfile.ci -t localhost:30000/flyte-conference-talks:scipy-2023-sandbox
+ci-docker-build:
+	docker build --push . -f Dockerfile.ci -t ghcr.io/flyteorg/flyte-conference-talks:scipy-2023-ci

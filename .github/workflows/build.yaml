@@ -64,8 +64,7 @@ jobs:
         flytectl demo start
         sleep 3
         flytectl --config /home/runner/.flyte/config-sandbox.yaml update task-resource-attribute --attrFile cra.yaml
-        make sandbox-docker-build
-        pyflyte register --image localhost:30000/flyte-conference-talks:scipy-2023-sandbox workflows
+        pyflyte register --image ghcr.io/flyteorg/flyte-conference-talks:scipy-2023-ci workflows
      
     - name: Last Test
       run: echo 'done'
