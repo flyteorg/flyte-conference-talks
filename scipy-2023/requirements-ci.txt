@@ -1,0 +1,7 @@
+dataclasses_json
+flytekit @ git+https://github.com/flyteorg/flytekit@3006032
+grpcio==1.51.3
+palmerpenguins
+pandas
+scikit-learn
+typing_extensions

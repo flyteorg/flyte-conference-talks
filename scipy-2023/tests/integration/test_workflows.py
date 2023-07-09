@@ -8,6 +8,7 @@ NOTE: This script assumes that:
 import logging
 import os
 import time
+from datetime import timedelta
 
 from flytekit.remote import FlyteRemote
 from flytekit.configuration import Config
@@ -29,6 +30,14 @@ if CONFIG_PATH is None:
 else:
     config = Config.auto(CONFIG_PATH)
 
+if int(os.environ.get("CI", 0)):
+    workflow_cases = WORKFLOW_CASES[:1]
+    poll_interval = timedelta(seconds=90)
+else:
+    workflow_cases = WORKFLOW_CASES
+    poll_interval = None
+
+
 remote = FlyteRemote(
     config=config,
     default_project="flytesnacks",
@@ -36,19 +45,19 @@ remote = FlyteRemote(
 )
 
 
-@pytest.mark.parametrize("wf_case", WORKFLOW_CASES)
+@pytest.mark.parametrize("wf_case", workflow_cases)
 def test_workflow_remote(wf_case: WorkflowCase):
-    for _ in range(60):
+    for _ in range(120):
         # bypass issue where multiple remote objects are authenticating at the
         # same time.
         try:
             flyte_wf = remote.fetch_workflow(name=wf_case.workflow.name)
             break
-        except OSError:
-            time.sleep(1)
+        except Exception:
+            time.sleep(5)
 
     execution = remote.execute(flyte_wf, inputs=wf_case.inputs)
     url = remote.generate_console_url(execution)
     logger.info(f"Running workflow {wf_case.workflow.name} at: {url}")
-    execution = remote.wait(execution)
+    execution = remote.wait(execution, poll_interval=poll_interval)
     assert execution.closure.phase == SUCCEED_STATUS

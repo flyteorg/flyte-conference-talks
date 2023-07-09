@@ -14,5 +14,6 @@ pandas
 pyspark<3.4.0
 scikit-learn
 torch --index-url https://download.pytorch.org/whl/cpu
+typing_extensions
 wheel
 whylogs

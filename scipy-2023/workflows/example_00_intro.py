@@ -33,7 +33,6 @@ FEATURES = [
     "body_mass_g",
 ]
 
-
 @dataclass_json
 @dataclass
 class Hyperparameters:

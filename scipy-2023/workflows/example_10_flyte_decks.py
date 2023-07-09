@@ -1,20 +1,19 @@
 """Auditability: Flyte Decks for Pipeline visibility."""
 
-from typing import Annotated
-
 import pandas as pd
 from palmerpenguins import load_penguins
+
+try:
+    from typing import Annotated
+except ImportError:
+    from typing_extensions import Annotated
 
 from workflows.example_00_intro import FEATURES, TARGET
 
 import whylogs as why
 from flytekit import task, workflow, Deck, Resources
 from flytekitplugins.deck import FrameProfilingRenderer
-from flytekitplugins.whylogs.renderer import (
-    WhylogsConstraintsRenderer,
-    WhylogsSummaryDriftRenderer,
-)
-from flytekitplugins.whylogs.schema import WhylogsDatasetProfileTransformer
+from flytekitplugins.whylogs.renderer import WhylogsConstraintsRenderer
 from whylogs.core import DatasetProfileView
 from whylogs.core.constraints import ConstraintsBuilder
 from whylogs.core.constraints.factories import (

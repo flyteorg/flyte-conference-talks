@@ -113,7 +113,7 @@ source ~/venvs/scipy-2023/bin/activate
 Install dependencies:
 
 ```bash
-pip install -r requirements.txt
+pip install -r requirements.txt flytekitplugins-envd
 pip install jupyter ipdb
 ```
 
