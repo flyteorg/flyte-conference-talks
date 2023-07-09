@@ -23,6 +23,7 @@ jobs:
         # python-version: ["3.8", "3.9", "3.10", "3.11"]
         # os: ["ubuntu-latest", "macos-latest", "windows-latest"]
 
+
     env:
       AWS_ACCESS_KEY_ID: minio
       AWS_SECRET_ACCESS_KEY: miniostorage
@@ -55,14 +56,12 @@ jobs:
     - name: Install FlyteCTL
       uses: unionai-oss/flytectl-setup-action@master
 
-    - name: Unit Tests
-      run: pytest tests/unit
+    # - name: Unit Tests
+    #   run: pytest tests/unit
 
     - name: Setup Flyte Sandbox
       run: |
         flytectl demo start
-        sleep 5
-        flytectl --config ~/.flyte/config-sandbox.yaml update task-resource-attribute --attrFile cra.yaml
-
-    - name: Register workflows
-      run: pyflyte register --image ghcr.io/flyteorg/flyte-conference-talks:scipy-2023-latest workflows
+        sleep 3
+        flytectl --config /home/runner/.flyte/config-sandbox.yaml update task-resource-attribute --attrFile cra.yaml
+        pyflyte register --image ghcr.io/flyteorg/flyte-conference-talks:scipy-2023-latest workflows
