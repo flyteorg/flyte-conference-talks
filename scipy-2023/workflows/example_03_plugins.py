@@ -76,7 +76,7 @@ def scale(data: pd.DataFrame):
     return (data - data.mean()) / data.std()
 
 
-@task
+@task(requests=Resources(cpu="2", mem="4Gi"))
 def preprocess_data(data: PenquinsDataset) -> PenquinsDataset:
     data = data.open(pd.DataFrame).all()
     penguins = (
@@ -116,10 +116,10 @@ def preprocess_data_pyspark(
 
 if int(os.environ.get("USE_ELASTIC", 0)):
     training_config = Elastic(nnodes=1)
-    training_resources = Resources(cpu="2", mem="1Gi", gpu="1")
+    training_resources = Resources(cpu="2", mem="4Gi", gpu="1")
 else:
     training_config = None
-    training_resources = Resources(cpu="2", mem="1Gi")
+    training_resources = Resources(cpu="2", mem="4Gi")
 
 
 @task(
