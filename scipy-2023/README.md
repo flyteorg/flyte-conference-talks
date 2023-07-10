@@ -77,11 +77,9 @@ pipeline auditability.
 ---
 ## Prerequisites
 
-Create a fork of this repo by going by going to the
-[repo link](https://github.com/flyteorg/flyte-conference-talks) and clicking
-on the **Fork** button on the top right of the page. Select your username as
-the repo fork owner. This will result in a repository called
-`https://github.com/<username>/flyte-conference-talks`, where `<username>` is your username.
+**⭐️ Important:** This workshop will involve moving between a terminal, text editor,
+and jupyter notebook environment. We highly recommend using [VSCode](https://code.visualstudio.com/) for the purposes of this workshop, but you can use any combination
+of tools that you're comfortable with.
 
 > ⚠️ **Note:** Windows users need to have [WSL installed](https://docs.microsoft.com/en-us/windows/wsl/install-win10) in order to run this workshop.
 
@@ -99,6 +97,12 @@ the repo fork owner. This will result in a repository called
 ---
 
 ## Setup
+
+Create a fork of this repo by going by going to the
+[repo link](https://github.com/flyteorg/flyte-conference-talks) and clicking
+on the **Fork** button on the top right of the page. Select your username as
+the repo fork owner. This will result in a repository called
+`https://github.com/<username>/flyte-conference-talks`, where `<username>` is your username.
 
 Clone your fork of the repo (replace `<username>` with your actual username):
 
