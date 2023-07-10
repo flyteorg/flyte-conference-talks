@@ -41,6 +41,6 @@ else
 fi
 
 # Should be run in the folder that has Dockerfile
-docker build --push --tag ${TAG} .
+docker build --push --tag ${TAG} . --platform=linux/amd64,linux/arm64
 
 echo "Docker image built with tag ${TAG}. You can use this image to run pyflyte package."
