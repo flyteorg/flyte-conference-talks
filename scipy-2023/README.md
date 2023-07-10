@@ -74,7 +74,14 @@ pipeline auditability.
 
 > 🗣️ 15 minute Q&A
 
+---
 ## Prerequisites
+
+Create a fork of this repo by going by going to the
+[repo link](https://github.com/flyteorg/flyte-conference-talks) and clicking
+on the **Fork** button on the top right of the page. Select your username as
+the repo fork owner. This will result in a repository called
+`https://github.com/<username>/flyte-conference-talks`, where `<username>` is your username.
 
 > ⚠️ **Note:** Windows users need to have [WSL installed](https://docs.microsoft.com/en-us/windows/wsl/install-win10) in order to run this workshop.
 
@@ -89,14 +96,11 @@ pipeline auditability.
    curl -sL https://ctl.flyte.org/install | sudo bash -s -- -b /usr/local/bin
    ```
 
+---
+
 ## Setup
 
-Create a fork of this repo by going by going to the
-[repo link](https://github.com/flyteorg/flyte-conference-talks) and clicking
-on the **Fork** button on the top right of the page.
-
-Clone this repo and go to the workshop directory, replacing `<username>` with
-your username:
+Clone your fork of the repo (replace `<username>` with your actual username):
 
 ```bash
 git clone https://github.com/<username>/flyte-conference-talks
@@ -148,7 +152,7 @@ flytectl update task-resource-attribute --attrFile cra.yaml
 Test the Flyte sandbox with:
 
 ```bash
-export IMAGE=ghcr.io/flyteorg/flyte-conference-talks:scipy-2023-latest
+export IMAGE=ghcr.io/flyteorg/flyte-conference-talks:scipy-2023-8a8496c
 
 pyflyte run --remote \
     --image $IMAGE \
@@ -183,8 +187,11 @@ pyflyte register --image $IMAGE workflows
 Then run the end-to-end pytest suite:
 
 ```bash
-pytest tests/integration -n auto
+pytest tests/integration
 ```
+
+> ℹ **Note**: Running the full integration test suite will take about 20 minutes.
+> You can parallelize the test runner with by supplying the `pytest ... -n auto` flag.
 
 ## Troubleshooting
 
@@ -197,3 +204,8 @@ Enable this by going to the **Docker Desktop** application and navigating to:
 
 Then, click on the checkbox next to **Allow the default Docker socket to be used**,
 then **Apply & restart**.
+
+### `OOM Killed` error
+
+In this case you may need to free up some memory by removing unused containers
+with `docker system prune -a --volumes`.
