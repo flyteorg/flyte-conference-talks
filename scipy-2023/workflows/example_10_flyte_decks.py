@@ -24,7 +24,7 @@ from whylogs.core.constraints.factories import (
 )
 
 
-resources = Resources(mem="1Gi")
+resources = Resources(mem="4Gi")
 
 
 @task(requests=resources, limits=resources, disable_deck=False)
