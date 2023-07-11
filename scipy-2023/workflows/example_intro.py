@@ -94,9 +94,10 @@ def training_workflow(
     return model, train_acc, test_acc
 
 
-training_launchplan = LaunchPlan.create(
-    "scheduled_training_workflow",
+training_launchplan = LaunchPlan.get_or_create(
     training_workflow,
+
+    name="scheduled_training_workflow",
 
     # run every 2 minutes
     schedule=CronSchedule(schedule="*/2 * * * *"),
