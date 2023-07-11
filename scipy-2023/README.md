@@ -118,7 +118,7 @@ Test the virtual environment with:
 
 ```bash
 pyflyte run \
-    workflows/example_00_intro.py training_workflow \
+    workflows/example_intro.py training_workflow \
     --hyperparameters '{"C": 0.01}'
 ```
 
@@ -149,7 +149,7 @@ export IMAGE=ghcr.io/flyteorg/flyte-conference-talks:scipy-2023-latest
 
 pyflyte run --remote \
     --image $IMAGE \
-    workflows/example_00_intro.py training_workflow \
+    workflows/example_intro.py training_workflow \
     --hyperparameters '{"C": 0.01}'
 ```
 

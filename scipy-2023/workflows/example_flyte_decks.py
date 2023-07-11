@@ -25,7 +25,7 @@ from whylogs.core.constraints.factories import (
     smaller_than_number,
 )
 
-from workflows.example_00_intro import FEATURES, TARGET, Hyperparameters
+from workflows.example_intro import FEATURES, TARGET, Hyperparameters
 
 
 resources = Resources(mem="4Gi")

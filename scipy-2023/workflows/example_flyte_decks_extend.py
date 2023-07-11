@@ -13,8 +13,8 @@ from sklearn.utils._estimator_html_repr import estimator_html_repr
 
 from flytekit import task, workflow, Deck
 
-from workflows.example_00_intro import get_data, split_data, FEATURES, TARGET
-from workflows.example_06_reproducibility import Hyperparameters
+from workflows.example_intro import get_data, split_data, FEATURES, TARGET
+from workflows.example_reproducibility import Hyperparameters
 
 
 class SklearnEstimatorRenderer:

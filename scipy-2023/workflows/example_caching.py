@@ -18,7 +18,7 @@ except ImportError:
     from typing_extensions import Annotated
 
 
-from workflows.example_06_reproducibility import (
+from workflows.example_reproducibility import (
     get_data,
     Hyperparameters,
     FEATURES,

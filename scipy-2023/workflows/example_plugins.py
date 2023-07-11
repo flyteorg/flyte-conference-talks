@@ -17,7 +17,7 @@ from flytekit.extras.sqlite3.task import SQLite3Config, SQLite3Task
 from flytekitplugins.spark import Spark
 from flytekitplugins.kfpytorch import Elastic
 
-from workflows.example_00_intro import FEATURES, TARGET
+from workflows.example_intro import FEATURES, TARGET
 
 try:
     from typing import Annotated

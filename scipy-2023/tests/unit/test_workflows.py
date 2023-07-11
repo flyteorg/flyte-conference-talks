@@ -35,8 +35,8 @@ def container_task_wf(wf_case: WorkflowCase):
             return wf_case.workflow(**wf_case.inputs)
 
 @pytest.mark.parametrize("wf_case", WORKFLOW_CASES)
-@patch("workflows.example_08_recover_executions.FAILURE_RATE", 0.0)
-@patch("workflows.example_09_checkpointing.FAILURE_RATE", 0.0)
+@patch("workflows.example_recover_executions.FAILURE_RATE", 0.0)
+@patch("workflows.example_checkpointing.FAILURE_RATE", 0.0)
 def test_workflow(wf_case: WorkflowCase, clear_cache, *_):
     if wf_case.workflow.name == "workflows.example_container_tasks.get_data_wf":
         output = container_task_wf(wf_case)

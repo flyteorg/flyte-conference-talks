@@ -7,7 +7,7 @@ from flytekit.types.structured import StructuredDataset
 from flytekitplugins.papermill import NotebookTask
 
 
-from workflows.example_00_intro import get_data
+from workflows.example_intro import get_data
 
 
 data_analysis_task = NotebookTask(

@@ -8,7 +8,7 @@ from sklearn.model_selection import train_test_split
 
 from flytekit import task, workflow
 
-from workflows.example_00_intro import FEATURES, TARGET
+from workflows.example_intro import FEATURES, TARGET
 
 
 @task
