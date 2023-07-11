@@ -12,6 +12,7 @@ grpcio==1.51.3
 ipykernel
 ipython==8.7.0
 joblib
+mlflow
 modin
 palmerpenguins
 pandas
