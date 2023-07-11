@@ -1,7 +1,10 @@
 dataclasses_json
 flytekitplugins-deck-standard
+flytekitplugins-envd
 flytekitplugins-kfpytorch
+flytekitplugins-mlflow
 flytekitplugins-pandera
+flytekitplugins-papermill
 flytekitplugins-spark
 flytekitplugins-whylogs
 flytekit==1.7.1b1

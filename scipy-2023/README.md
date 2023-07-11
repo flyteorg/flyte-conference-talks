@@ -28,7 +28,7 @@ This workshop will focus on five facets of production-grade data science:
 | **`pyflyte run`** | Run tasks and workflows locally or on a Flyte cluster  |
 | **Flyte Console** | A tour of the Flyte console to view workflow progress and status  |
 | **`FlyteRemote`** | Programmatically run tasks and workflows  |
-| **Scheduling Launch Plans** | Run your workflows on a schedule and get notified about their status |
+| **Scheduling Launch Plans** | Run your workflows on a schedule |
 
 > ⏱️ 15 minute break
 
@@ -43,19 +43,20 @@ This workshop will focus on five facets of production-grade data science:
 
 > ⏱️ 15 minute break
 
-| 🚀 Productionizing Data Science Workloads | [1 hour] |
+| 🚀 Productionizing Data Science Workloads | [45 mins] |
 | --- | --- |
 | **Parallelism** | Use dynamic workflows and map tasks to parallelize your tasks |
 | **Horizontal Scaling** | Specify heterogenous resources requirements at the task-level and use plugins to horizontally scale your workloads |
 | **Production Notebooks** | Use `NotebookTask`s to leverage jupyter notebooks in production workflows |
 | **Container Tasks** | Incorporate tasks written in any language into your workflows |
 | **ImageSpec** | Abstracting the containerization step with ImageSpec |
+| > ⏱️ 15 minute break | |
 | **Recovering from Failure** | Build robust pipelines wiht retries, caching, failure recovery, and checkpointing |
 | **Auditing Workflows** | Gain visibility into your tasks with Flyte Decks |
 
 > ⏱️ 15 minute break
 
-| 🔎 Testing, CI/CD, Extending Flyte | [30 minutes] |
+| 🔎 Testing, CI/CD, Extending Flyte | [45 minutes] |
 | --- | --- |
 | **Writing Unit Tests** | Test Flyte tasks and workflows in isolation |
 | **Writing Integration Tests** | Test Flyte workflows on a local cluster |
