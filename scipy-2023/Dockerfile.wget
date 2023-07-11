@@ -1,0 +1,7 @@
+FROM alpine
+
+WORKDIR /root
+RUN apk add --no-cache wget
+
+COPY scripts /root/scripts
+RUN chmod +x /root/scripts/download_dataset.sh

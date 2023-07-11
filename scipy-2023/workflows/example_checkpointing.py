@@ -14,8 +14,8 @@ from flytekit import task, workflow, current_context
 from flytekit.core.checkpointer import Checkpoint
 from flytekit.exceptions.user import FlyteRecoverableException
 
-from workflows.example_05_pandera_types import CLASSES
-from workflows.example_06_reproducibility import (
+from workflows.example_pandera_types import CLASSES
+from workflows.example_reproducibility import (
     get_data,
     Hyperparameters,
     FEATURES,

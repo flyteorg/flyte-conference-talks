@@ -11,7 +11,7 @@ from sklearn.linear_model import SGDClassifier
 
 from flytekit import task, workflow, Resources
 
-from workflows.example_00_intro import get_data, FEATURES, TARGET
+from workflows.example_intro import get_data, FEATURES, TARGET
 
 
 @dataclass_json

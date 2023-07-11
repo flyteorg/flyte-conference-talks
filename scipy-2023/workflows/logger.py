@@ -21,7 +21,6 @@ class PickleFilter(logging.Filter):
 
 
 flytekit_logger = logging.getLogger("flytekit")
-flytekit_logger.addFilter(PickleFilter())
 
 flytekit_remote_logger = flytekit_logger.getChild("remote")
 flytekit_remote_logger.addFilter(FlyteRemoteFilter())

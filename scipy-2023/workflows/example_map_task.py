@@ -10,7 +10,7 @@ from dataclasses_json import dataclass_json
 from flytekit import task, workflow, map_task, Resources
 from flytekit.types.structured import StructuredDataset
 
-from workflows.example_00_intro import (
+from workflows.example_intro import (
     get_data,
     split_data,
     evaluate,
@@ -18,7 +18,7 @@ from workflows.example_00_intro import (
     TARGET,
     Hyperparameters,
 )
-from workflows.example_01_dynamic import get_best_model, TuningResults
+from workflows.example_dynamic import get_best_model, TuningResults
 
 
 @dataclass_json

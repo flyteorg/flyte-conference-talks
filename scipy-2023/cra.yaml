@@ -1,5 +1,4 @@
 project: flytesnacks
-domain: development
 defaults:
   cpu: "2"
   memory: "4Gi"

@@ -3,7 +3,7 @@ from flytekit.configuration import Config
 from flytekit.remote import FlyteRemote, FlyteWorkflowExecution
 
 
-def get_remote(local=None, config_file=None):
+def get_remote(local=None, config_file=None) -> FlyteRemote:
     if local is None and config_file is None:
         config = Config.for_sandbox()
     else:

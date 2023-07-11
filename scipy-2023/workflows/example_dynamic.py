@@ -10,7 +10,7 @@ from sklearn.metrics import accuracy_score
 from flytekit import task, workflow, dynamic
 
 # Tasks and workflows are reusable across modules
-from workflows.example_00_intro import (
+from workflows.example_intro import (
     get_data,
     split_data,
     train_model,

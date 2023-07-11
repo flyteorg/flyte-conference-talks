@@ -1,6 +1,7 @@
 """Auditability: Flyte Decks for Pipeline visibility."""
 
 import pandas as pd
+from dataclasses import asdict
 from palmerpenguins import load_penguins
 
 try:
@@ -8,12 +9,13 @@ try:
 except ImportError:
     from typing_extensions import Annotated
 
-from workflows.example_00_intro import FEATURES, TARGET
-
+import mlflow
 import whylogs as why
 from flytekit import task, workflow, Deck, Resources
 from flytekitplugins.deck import FrameProfilingRenderer
+from flytekitplugins.mlflow import mlflow_autolog
 from flytekitplugins.whylogs.renderer import WhylogsConstraintsRenderer
+from sklearn.linear_model import LogisticRegression
 from whylogs.core import DatasetProfileView
 from whylogs.core.constraints import ConstraintsBuilder
 from whylogs.core.constraints.factories import (
@@ -22,6 +24,8 @@ from whylogs.core.constraints.factories import (
     null_percentage_below_number,
     smaller_than_number,
 )
+
+from workflows.example_intro import FEATURES, TARGET, Hyperparameters
 
 
 resources = Resources(mem="4Gi")
@@ -45,7 +49,7 @@ def get_data_annotated() -> Annotated[
     """
     🃏 Flyte Decks can also be rendered at the output interface of your tasks.
     """
-    return load_penguins()[[TARGET] + FEATURES]
+    return load_penguins()[[TARGET] + FEATURES].dropna()
 
 
 @task(requests=resources, limits=resources, disable_deck=False)
@@ -68,13 +72,31 @@ def get_constraints_report(profile_view: DatasetProfileView) -> bool:
     return constraints.validate()
 
 
+@task(disable_deck=False)
+@mlflow_autolog(
+    framework=mlflow.sklearn,
+    experiment_name="penguins_experiment",
+)
+def train_model(
+    data: pd.DataFrame,
+    hyperparameters: Hyperparameters,
+) -> LogisticRegression:
+    return LogisticRegression(**asdict(hyperparameters)).fit(
+        data[FEATURES], data[TARGET]
+    )
+
+
 @workflow
-def penguins_data_workflow():
+def penguins_data_workflow(
+    hyperparameters: Hyperparameters = Hyperparameters(C=0.01)
+) -> LogisticRegression:
     data = get_data()
-    get_data_annotated()
+    annotated_data = get_data_annotated()
 
     profile_view = get_profile_view(data=data)
     get_constraints_report(profile_view=profile_view)
+
+    return train_model(data=annotated_data, hyperparameters=hyperparameters)
 
 
 if __name__ == "__main__":

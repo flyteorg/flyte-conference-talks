@@ -11,13 +11,13 @@ from sklearn.linear_model import SGDClassifier
 from flytekit import task, workflow, dynamic
 from flytekit.exceptions.user import FlyteRecoverableException
 
-from workflows.example_07_caching import get_best_model
-from workflows.example_06_reproducibility import (
+from workflows.example_caching import get_best_model
+from workflows.example_reproducibility import (
     Hyperparameters,
     FEATURES,
     TARGET,
 )
-from workflows.example_07_caching import get_data, split_data
+from workflows.example_caching import get_data, split_data
 
 
 FAILURE_RATE = 0.25

@@ -4,73 +4,62 @@ This directory contains the workshop materials for [Scipy 2023](https://cfp.scip
 
 ## Production-grade Data Science Orchestration with Flyte
 
-This tutorial will focus on four challenges in the context of data science in
-production:
+This workshop will focus on five facets of production-grade data science:
 
-- Scalability
-- Data Quality
-- Reproducibility
-- Recoverability
-- Auditability
+- ⛰️ Scalability
+- ✅ Data Quality
+- 🔄 Reproducibility
+- 🔂 Recoverability
+- 🔎 Auditability
 
-Using Flyte, a data- and machine-learning open source orchestrator, we’ll see
-how to address these challenges and abstract them out to give you a broader
-understanding of how to surmount them.
+### Learning Objectives
 
-First we'll define and describe what these four challenges mean in the context
-of ML model development. Then I’ll dive into the ways in which Flyte provides
-solutions to them, taking you through the reasoning behind Flyte’s data-centric
-and ML-aware design.
-
-You'll learn how Flyte distributes and scales computation, enforces static and
-runtime type safety, leverages Docker to provide strong reproducibility
-guarantees, implements caching and checkpointing to recover from failed model
-training runs, and ships with built-in data lineage tracking for full data
-pipeline auditability.
+- Learn the basics constructs of Flyte: tasks, workflows, and launchplans
+- Understand how Flyte orchestrates execution graphs, data, and compute infrastructure
+- Work with the building blocks for productionizing data science workloads
+- Learn how to test Flyte code, use CI/CD, and extend Flyte
 
 ## Outline
 
-| 🔤 Introduction to Flyte [45 minutes] | |
+| 🔤 Introduction to Flyte | [45 minutes] |
 | --- | --- |
 | **Environment Setup** | Setting up your virtual development environment |
-| **Tasks, Workflows, and Launch Plans** | The building blocks for expressing execution graphs |
-| **Scheduling Launch Plans** | Run your workflows on a schedule and get notified about their status |
+| **Flyte Basics** | Tasks, Workflows, and Launch Plans: the building blocks of Flyte |
 | **`pyflyte run`** | Run tasks and workflows locally or on a Flyte cluster  |
 | **Flyte Console** | A tour of the Flyte console to view workflow progress and status  |
 | **`FlyteRemote`** | Programmatically run tasks and workflows  |
+| **Scheduling Launch Plans** | Run your workflows on a schedule |
 
 > ⏱️ 15 minute break
 
-| 🔀 Flyte Programming Model [45 minutes] | |
+| 🔀 Flyte Programming Model | [45 minutes] |
 | --- | --- |
-| **Development Lifecycle Overview** | How to progress from development to production |
 | **Tasks as Containerized Functions** | A core building block for statelessness and reproducibility |
-| **Container Tasks** | Incorporate tasks written in any language into your workflows |
+| **Workflows and Promises** | How Flyte workflows construct an execution graph of tasks |
+| **Type System** | How Flyte handles different types |
 | **How Data Flows in Flyte** | How the type system helps to abstract away passing data between tasks |
-| **Primitive Types vs. Offloaded Types** | How Flyte handles different types |
-| **Data and Machine Learning Types** | Type-handling for data- and ML-specific objects |
 | **Lifecycle of a Workflow** | How workflows are executed by a Flyte backend |
+| **Development Lifecycle Overview** | How to progress from development to production |
 
 > ⏱️ 15 minute break
 
-| 🚀 Productionizing Data Science Workloads [45 minutes] | |
+| 🚀 Productionizing Data Science Workloads | [45 mins] |
 | --- | --- |
 | **Parallelism** | Use dynamic workflows and map tasks to parallelize your tasks |
-| **Resource Allocation** | Specify heterogenous resources requirements at the task-level |
-| **Scaling** | Use the SQL, Spark, and Pytorch Elastic plugins to scale your workloads |
-| **Production Notebooks** | Use `NotebookTask`s to leverate jupyter notebooks in production workflows |
-| **ImageSpec** | Abstracting the containerization step with ImageSpec |
+| **Horizontal Scaling** | Specify heterogenous resources requirements at the task-level and use plugins to horizontally scale your workloads |
+| **Production Notebooks** | Use `NotebookTask`s to leverage jupyter notebooks in production workflows |
+| **Container Tasks** | Incorporate tasks written in any language into your workflows |
 | **Recovering from Failure** | Build robust pipelines wiht retries, caching, failure recovery, and checkpointing |
 | **Auditing Workflows** | Gain visibility into your tasks with Flyte Decks |
 
 > ⏱️ 15 minute break
 
-| 🔎 Testing, CI/CD, Extending Flyte [45 minutes] | |
+| 🔎 Testing, CI/CD, Extending Flyte | [45 minutes] |
 | --- | --- |
 | **Writing Unit Tests** | Test Flyte tasks and workflows in isolation |
 | **Writing Integration Tests** | Test Flyte workflows on a local cluster |
 | **Using Github Actions** | Use github actions to automate testing |
-| **Extending Flyte** | Extend Flyte with decorators, type plugins, flyte deck extensions, and task plugins |
+| **Extending Flyte** | Extend Flyte with decorators, flyte deck extensions, type plugins, and task plugins |
 
 > 🗣️ 15 minute Q&A
 
@@ -129,7 +118,7 @@ Test the virtual environment with:
 
 ```bash
 pyflyte run \
-    workflows/example_00_intro.py training_workflow \
+    workflows/example_intro.py training_workflow \
     --hyperparameters '{"C": 0.01}'
 ```
 
@@ -156,11 +145,11 @@ flytectl update task-resource-attribute --attrFile cra.yaml
 Test the Flyte sandbox with:
 
 ```bash
-export IMAGE=ghcr.io/flyteorg/flyte-conference-talks:scipy-2023-8a8496c
+export IMAGE=ghcr.io/flyteorg/flyte-conference-talks:scipy-2023-latest
 
 pyflyte run --remote \
     --image $IMAGE \
-    workflows/example_00_intro.py training_workflow \
+    workflows/example_intro.py training_workflow \
     --hyperparameters '{"C": 0.01}'
 ```
 
