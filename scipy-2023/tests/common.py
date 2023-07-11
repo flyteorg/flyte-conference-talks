@@ -47,7 +47,7 @@ WORKFLOW_CASES = [
     ),
     WorkflowCase(
         workflow=example_container_tasks.get_data_wf,
-        inputs={"url": "https://www.example.com/test/url"},
+        inputs={"url": example_container_tasks.PENGUINS_DATASET_URL},
         expected_output_types=StructuredDataset,
     ),
     WorkflowCase(

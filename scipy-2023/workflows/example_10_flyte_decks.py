@@ -73,7 +73,10 @@ def get_constraints_report(profile_view: DatasetProfileView) -> bool:
 
 
 @task(disable_deck=False)
-@mlflow_autolog(framework=mlflow.sklearn)
+@mlflow_autolog(
+    framework=mlflow.sklearn,
+    experiment_name="penguins_experiment",
+)
 def train_model(
     data: pd.DataFrame,
     hyperparameters: Hyperparameters,

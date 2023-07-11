@@ -1,10 +1,8 @@
 """An example of how to use Jupyter Notebooks in your workflows."""
 
 from pathlib import Path
-from typing import Tuple
 
 from flytekit import workflow, kwtypes
-from flytekit.types.file import FlyteFile
 from flytekit.types.structured import StructuredDataset
 from flytekitplugins.papermill import NotebookTask
 
