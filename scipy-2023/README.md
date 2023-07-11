@@ -24,7 +24,7 @@ This workshop will focus on five facets of production-grade data science:
 | 🔤 Introduction to Flyte | [45 minutes] |
 | --- | --- |
 | **Environment Setup** | Setting up your virtual development environment |
-| **Tasks, Workflows, and Launch Plans** | The building blocks for expressing execution graphs |
+| **Flyte Basics** | Tasks, Workflows, and Launch Plans: the building blocks of Flyte |
 | **`pyflyte run`** | Run tasks and workflows locally or on a Flyte cluster  |
 | **Flyte Console** | A tour of the Flyte console to view workflow progress and status  |
 | **`FlyteRemote`** | Programmatically run tasks and workflows  |
@@ -36,9 +36,8 @@ This workshop will focus on five facets of production-grade data science:
 | --- | --- |
 | **Tasks as Containerized Functions** | A core building block for statelessness and reproducibility |
 | **Workflows and Promises** | How Flyte workflows construct an execution graph of tasks |
+| **Type System** | How Flyte handles different types |
 | **How Data Flows in Flyte** | How the type system helps to abstract away passing data between tasks |
-| **Primitive Types vs. Offloaded Types** | How Flyte handles different types |
-| **Data Science and Machine Learning Types** | Type-handling for data- and ML-specific objects |
 | **Lifecycle of a Workflow** | How workflows are executed by a Flyte backend |
 | **Development Lifecycle Overview** | How to progress from development to production |
 
@@ -47,8 +46,7 @@ This workshop will focus on five facets of production-grade data science:
 | 🚀 Productionizing Data Science Workloads | [1 hour] |
 | --- | --- |
 | **Parallelism** | Use dynamic workflows and map tasks to parallelize your tasks |
-| **Resource Allocation** | Specify heterogenous resources requirements at the task-level |
-| **Scaling** | Use the SQL, Spark, and Pytorch Elastic plugins to scale your workloads |
+| **Horizontal Scaling** | Specify heterogenous resources requirements at the task-level and use plugins to horizontally scale your workloads |
 | **Production Notebooks** | Use `NotebookTask`s to leverage jupyter notebooks in production workflows |
 | **Container Tasks** | Incorporate tasks written in any language into your workflows |
 | **ImageSpec** | Abstracting the containerization step with ImageSpec |
@@ -62,7 +60,7 @@ This workshop will focus on five facets of production-grade data science:
 | **Writing Unit Tests** | Test Flyte tasks and workflows in isolation |
 | **Writing Integration Tests** | Test Flyte workflows on a local cluster |
 | **Using Github Actions** | Use github actions to automate testing |
-| **Extending Flyte** | Extend Flyte with decorators, type plugins, flyte deck extensions, and task plugins |
+| **Extending Flyte** | Extend Flyte with decorators, flyte deck extensions, type plugins, and task plugins |
 
 > 🗣️ 15 minute Q&A
 
