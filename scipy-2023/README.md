@@ -83,6 +83,14 @@ of tools that you're comfortable with.
    curl -sL https://ctl.flyte.org/install | sudo bash -s -- -b /usr/local/bin
    ```
 
+#### Getting Help
+
+🙌 Join the [flyte scipy slack channel](https://flyte-org.slack.com/archives/C05FQT6D26N)
+to get help with anything from setup to debugging through out the workshop.
+
+⏱️ We'll also be taking 15 minute breaks throughout the workshop if need to
+catch up, ask any questions, or take a breather.
+
 ---
 
 ## Setup
