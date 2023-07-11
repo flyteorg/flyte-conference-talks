@@ -3,6 +3,8 @@
 .config
 decks
 mlruns
+notebooks/*-out.html
+notebooks/*-out.ipynb
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
