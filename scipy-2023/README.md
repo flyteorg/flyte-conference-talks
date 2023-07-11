@@ -119,7 +119,7 @@ Install dependencies:
 
 ```bash
 pip install -r requirements.txt flytekitplugins-envd
-pip install jupyter ipdb
+pip install jupyter
 ```
 
 Test the virtual environment with:
