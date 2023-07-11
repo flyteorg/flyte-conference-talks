@@ -49,8 +49,6 @@ This workshop will focus on five facets of production-grade data science:
 | **Horizontal Scaling** | Specify heterogenous resources requirements at the task-level and use plugins to horizontally scale your workloads |
 | **Production Notebooks** | Use `NotebookTask`s to leverage jupyter notebooks in production workflows |
 | **Container Tasks** | Incorporate tasks written in any language into your workflows |
-| **ImageSpec** | Abstracting the containerization step with ImageSpec |
-| > ⏱️ 15 minute break | |
 | **Recovering from Failure** | Build robust pipelines wiht retries, caching, failure recovery, and checkpointing |
 | **Auditing Workflows** | Gain visibility into your tasks with Flyte Decks |
 

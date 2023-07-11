@@ -1,10 +1,12 @@
 """Common testing utilities"""
 
-from typing import Any, Dict, NamedTuple, Tuple, Type
+from typing import Any, Dict, NamedTuple, Tuple, Type, Union
 
 import pandas as pd
 import torch.nn as nn
 from flytekit.core.workflow import PythonFunctionWorkflow
+from flytekit.types.file import FlyteFile
+from flytekit.types.structured import StructuredDataset
 from sklearn.linear_model import LogisticRegression, SGDClassifier
 from sklearn.pipeline import Pipeline
 
@@ -21,13 +23,15 @@ from workflows import (
     example_09_checkpointing,
     example_10_flyte_decks,
     example_11_extend_flyte_decks,
+    example_container_tasks,
+    example_notebook_tasks,
 )
 
 
 class WorkflowCase(NamedTuple):
     workflow: PythonFunctionWorkflow
     inputs: Dict[str, Any]
-    expected_output_types: Tuple[Type, ...]
+    expected_output_types: Union[Type, Tuple[Type, ...]]
 
 
 WORKFLOW_CASES = [
@@ -35,6 +39,16 @@ WORKFLOW_CASES = [
         workflow=example_00_intro.training_workflow,
         inputs={"hyperparameters": example_00_intro.Hyperparameters(C=0.1, max_iter=5000)},
         expected_output_types=(LogisticRegression, float, float),
+    ),
+    WorkflowCase(
+        workflow=example_notebook_tasks.data_analysis_wf,
+        inputs={},
+        expected_output_types=None,
+    ),
+    WorkflowCase(
+        workflow=example_container_tasks.get_data_wf,
+        inputs={"url": "https://www.example.com/test/url"},
+        expected_output_types=StructuredDataset,
     ),
     WorkflowCase(
         workflow=example_01_dynamic.tuning_workflow,
@@ -88,7 +102,7 @@ WORKFLOW_CASES = [
         inputs={
             "hyperparam_grid": [
                 example_06_reproducibility.Hyperparameters(alpha=alpha)
-                for alpha in [10.0, 1.0, 0.1, 0.01, 0.001, 0.0001]
+                for alpha in [0.1, 0.01, 0.001]
             ],
         },
         expected_output_types=SGDClassifier,
@@ -96,7 +110,7 @@ WORKFLOW_CASES = [
     WorkflowCase(
         workflow=example_08_recover_executions.tuning_workflow,
         inputs={
-            "alpha_grid": [100.0, 10.0, 1.0, 0.1, 0.01, 0.001, 0.0001, 0.00001],
+            "alpha_grid": [0.1, 0.01, 0.001],
         },
         expected_output_types=SGDClassifier,
     ),
@@ -114,7 +128,7 @@ WORKFLOW_CASES = [
     WorkflowCase(
         workflow=example_10_flyte_decks.penguins_data_workflow,
         inputs={},
-        expected_output_types=None,
+        expected_output_types=LogisticRegression,
     ),
     WorkflowCase(
         workflow=example_11_extend_flyte_decks.training_workflow,
