@@ -10,7 +10,7 @@ flytekitplugins-whylogs
 flytekit==1.7.1b1
 grpcio==1.51.3
 ipykernel
-ipython==8.7.0
+ipython==8.10.0
 joblib
 mlflow
 modin
