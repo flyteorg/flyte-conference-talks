@@ -59,7 +59,6 @@ get_data = SQLite3Task(
     task_config=SQLite3Config(
         uri="https://datasette-seaborn-demo.datasette.io/penguins.db"
     ),
-    container_image="ghcr.io/flyteorg/flyte-conference-talks:scipy-2023-ccfab5b3da86323f07a643ab576d0ad3ed37e3ea",
 )
 
 # Other examples of this type of plugin are:

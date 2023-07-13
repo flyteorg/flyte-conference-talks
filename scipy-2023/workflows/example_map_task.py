@@ -32,20 +32,14 @@ class TrainArgs:
 
 # ⛰ Scaling by provisioning more compute/memory at the task-level
 @task(requests=Resources(cpu="2", mem="1Gi"))
-def train_model(train_args: TrainArgs) -> LogisticRegression:
+def train_model(hyperparameters: Hyperparameters, data: StructuredDataset) -> LogisticRegression:
     """This is a unary task function for our model to make it mappable"""
-    data: pd.DataFrame = train_args.data.open(pd.DataFrame).all()
-    model = LogisticRegression(**asdict(train_args.hyperparameters))
+    data: pd.DataFrame = data.open(pd.DataFrame).all()
+    model = LogisticRegression(**asdict(hyperparameters))
     return model.fit(data[FEATURES], data[TARGET])
 
 
-@task
-def prepare_train_args(
-    train_data: StructuredDataset, hyperparam_grid: List[Hyperparameters]
-) -> List[TrainArgs]:
-    """👜 We then create a task to create a list of TrainArgs to map over."""
-    return [TrainArgs(train_data, hp) for hp in hyperparam_grid]
-
+from functools import partial
 
 @workflow
 def tune_model(
@@ -61,10 +55,10 @@ def tune_model(
     # ⛰ Scaling by splitting work across multiple tasks:
     # Wrapping the `train_model` task in `map_task` allows us to parallelize
     # our grid search.
-    models = map_task(train_model, concurrency=5)(
-        train_args=prepare_train_args(
-            train_data=train_data, hyperparam_grid=hyperparam_grid
-        )
+
+    partial(train_model, data=train_data)
+    models = map_task(partial(train_model, data=train_data), concurrency=5)(
+        hyperparameters=hyperparam_grid
     )
     return get_best_model(models=models, val_data=val_data)
 
