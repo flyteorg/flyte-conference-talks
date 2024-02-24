@@ -23,7 +23,7 @@ minikube start --driver=docker
 ```
 2. Download the manifest for the Flyte dependencies:
 ```bash
-curl -sl https://raw.githubusercontent.com/flyte-conference-talks/kcdmexico-2024/manifests/flyte-resources.yaml > flyte-resources.yaml
+curl -sl https://raw.githubusercontent.com/flyteorg/flyte-conference-talks/main/kcdmx2024/manifests/flyte-resources.yaml > flyte-resources.yaml
 ```
 3. Submit the manifest:
 ```bash
