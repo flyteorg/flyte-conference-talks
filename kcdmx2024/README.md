@@ -6,10 +6,13 @@ This is the logical architecture you'll be deploying and using:
 
 ## Pre-requisites
 
-1. Docker Desktop
-2. kubectl
-3. minikube
-4. python 3.9+
+1. [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+2. [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)
+3. [minikube](https://minikube.sigs.k8s.io/docs/start/)
+4. python 3.9+ (`python --version`)
+5. [Helm](https://helm.sh/docs/intro/install/#through-package-managers)
+6. [flytectl](https://docs.flyte.org/projects/flytectl/en/latest/#installation)
+7. flytekit - Flyte's Python SDK (`pip install flytekit`)
 
 ## Preparing a Kubernetes environment
 
@@ -18,7 +21,6 @@ This is the logical architecture you'll be deploying and using:
 ```bash
 minikube start --driver=docker
 ```
-
 2. Download the manifest for the Flyte dependencies:
 ```bash
 curl -sl https://raw.githubusercontent.com/flyte-conference-talks/kcdmexico-2024/manifests/flyte-resources.yaml > flyte-resources.yaml
@@ -27,17 +29,20 @@ curl -sl https://raw.githubusercontent.com/flyte-conference-talks/kcdmexico-2024
 ```bash
 kubectl create -f flyte-resources.yaml
 ```
-3. Install Flyte:
+4. Add the Helm repo:
+```bash
+helm repo add flyteorg https://flyteorg.github.io/flyte
+```
+5. Install Flyte:
 ```bash
 helm install flyte-binary flyteorg/flyte-binary  --values values.yaml -n flyte
 ```
-4. In three separate Terminal windows, start port-forwarding sessions to the following components:
+6. In three separate Terminal windows, start port-forwarding sessions to the following components:
 
 Web console
 ```
 kubectl -n flyte port-forward service/flyte-binary-http 8088:8088 
 ```
-
 API endpoint
 ```
 kubectl -n flyte port-forward service/flyte-binary-grpc 8089:8089 
@@ -45,16 +50,15 @@ kubectl -n flyte port-forward service/flyte-binary-grpc 8089:8089
 minio (blob storage)
 ```
 kubectl -n flyte port-forward service/minio 9000:9000 
-```
-
-5. Edit the `$HOME/.flyte/config.yaml` file to reflect the following:
+``` 
+7. Edit the `$HOME/.flyte/config.yaml` file to reflect the following:
 ```yaml
 admin:
   endpoint: localhost:8089
   insecure: true
   authType: Pkce
 ```
-6. Add and entry to your local DNS file so your `pyflyte` client is able to resolve the `minio` service name:
+8. Add and entry to your local DNS file so your `pyflyte` client is able to resolve the `minio` service name:
 ```bash
 sudo vi /etc hosts
 
@@ -66,13 +70,13 @@ sudo vi /etc hosts
 127.0.0.1       minio.flyte.svc.cluster.local
 ```
 
-7. Download this demo workflow or simply start developing your own:
+9. Download this demo workflow or simply start developing your own:
 
 ``` bash
 curl -sl https://raw.githubusercontent.com/davidmirror-ops/flyte-the-hard-way/main/docs/on-premises/microk8s/demo.py > demo.py
 ```
 
-8. Submit the workflow:
+10. Submit the workflow:
 ``` bash
 pyflyte run --remote demo.py wf
 ```
