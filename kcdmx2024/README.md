@@ -37,7 +37,12 @@ helm repo add flyteorg https://flyteorg.github.io/flyte
 ```bash
 helm install flyte-binary flyteorg/flyte-binary  --values values.yaml -n flyte
 ```
-6. In three separate Terminal windows, start port-forwarding sessions to the following components:
+6. Install the example workflow's dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+7. In three separate Terminal windows, start port-forwarding sessions to the following components:
 
 Web console
 ```
@@ -51,7 +56,7 @@ minio (blob storage)
 ```
 kubectl -n flyte port-forward service/minio 9000:9000 
 ``` 
-7. Initialize the CLI config:
+8. Initialize the CLI config:
 ```bash
 flytectl config init
 ```
@@ -63,7 +68,7 @@ admin:
   authType: Pkce
 ```
 
-8. Add and entry to your local DNS file so your `pyflyte` client is able to resolve the `minio` service name:
+9. Add and entry to your local DNS file so your `pyflyte` client is able to resolve the `minio` service name:
 ```bash
 sudo vi /etc hosts
 
@@ -75,13 +80,13 @@ sudo vi /etc hosts
 127.0.0.1       minio.flyte.svc.cluster.local
 ```
 
-9. Download this demo workflow or simply start developing your own:
+10. Download this demo workflow or simply start developing your own:
 
 ``` bash
 curl -sl https://raw.githubusercontent.com/davidmirror-ops/flyte-the-hard-way/main/docs/on-premises/microk8s/demo.py > demo.py
 ```
 
-10. Submit the workflow:
+11. Submit the workflow:
 ``` bash
 pyflyte run --remote demo.py wf
 ```
