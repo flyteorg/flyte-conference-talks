@@ -51,13 +51,18 @@ minio (blob storage)
 ```
 kubectl -n flyte port-forward service/minio 9000:9000 
 ``` 
-7. Edit the `$HOME/.flyte/config.yaml` file to reflect the following:
+7. Initialize the CLI config:
+```bash
+flytectl config init
+```
+Edit the `$HOME/.flyte/config.yaml` file to reflect the following:
 ```yaml
 admin:
   endpoint: localhost:8089
   insecure: true
   authType: Pkce
 ```
+
 8. Add and entry to your local DNS file so your `pyflyte` client is able to resolve the `minio` service name:
 ```bash
 sudo vi /etc hosts
