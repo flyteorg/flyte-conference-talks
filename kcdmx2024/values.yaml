@@ -11,7 +11,7 @@ configuration:
     providerConfig:
       s3:
         authType: "accesskey"
-        endpoint: "http://minio.flyte.svc.cluster.local:57149"
+        endpoint: "http://minio.flyte.svc.cluster.local:9000"
         accessKey: "minio"
         secretKey: "miniostorage" #If you need to change this parameters, refer to the local-flyte-resources.yaml manifest and adjust the MINIO_ROOT_PASSWORD env var
         disableSSL: "true"
